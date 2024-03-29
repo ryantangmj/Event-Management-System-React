@@ -22,8 +22,11 @@ function Copyright() {
       fontFamily={"nunito, sans-serif"}
     >
       {"Copyright © "}
-      <Link href="https://github.com/tristantanjh/EdenFood" color="#181B13">
-        EdenFood
+      <Link
+        href="https://github.com/ryantangmj/Event-Management-System-React"
+        color="#181B13"
+      >
+        Event Genesis
       </Link>
       &nbsp;
       {new Date().getFullYear()}
@@ -33,135 +36,21 @@ function Copyright() {
 
 export default function Footer() {
   return (
-    <Container
+    <Box
       sx={{
         display: "flex",
         flexDirection: "column",
         alignItems: "center",
+        justifyContent: "space-between",
+        backgroundColor: "#EFBC9B",
+        width: "100vw",
+        minHeight: "20vh",
         gap: { xs: 4, sm: 8 },
         py: { xs: 4, sm: 10 },
         textAlign: { sm: "center", md: "left" },
         fontFamily: "nunito, sans-serif",
       }}
     >
-      <Box
-        sx={{
-          display: "flex",
-          flexDirection: { xs: "column", sm: "row" },
-          width: "100%",
-          justifyContent: "space-between",
-        }}
-      >
-        <Box
-          sx={{
-            display: "flex",
-            flexDirection: "column",
-            gap: 4,
-            minWidth: { xs: "100%", sm: "60%" },
-          }}
-        >
-          <Box
-            sx={{
-              width: { xs: "100%", sm: "60%" },
-              display: { xs: "none", md: "flex" },
-            }}
-          >
-            <Box sx={{ ml: "-15px" }}>
-              <img
-                src={
-                  "https://res.cloudinary.com/dhdnzfgm8/image/upload/v1708750197/Natural_Fresh_Food_Logo_uzq4gs.png"
-                }
-                style={logoStyle}
-                alt="edenfood-logo"
-              />
-            </Box>
-            {/* <Typography variant="body2" fontWeight={600} gutterBottom>
-              Newsletter
-            </Typography>
-            <Typography variant="body2" color="text.secondary" mb={2}>
-              Subscribe to our newsletter for weekly updates and promotions.
-            </Typography>
-            <Stack direction="row" spacing={1} useFlexGap>
-              <TextField
-                id="outlined-basic"
-                hiddenLabel
-                size="small"
-                variant="outlined"
-                fullWidth
-                aria-label="Enter your email address"
-                placeholder="Your email address"
-                inputProps={{
-                  autocomplete: 'off',
-                  ariaLabel: 'Enter your email address',
-                }}
-              />
-              <Button variant="contained" color="primary" sx={{ flexShrink: 0 }}>
-                Subscribe
-              </Button>
-            </Stack> */}
-          </Box>
-        </Box>
-        <Box
-          sx={{
-            display: "flex",
-            flexDirection: "column",
-            gap: 1,
-          }}
-        >
-          {/* <Typography variant="body2" fontWeight={600}>
-            Product
-          </Typography>
-          <Link color="text.secondary" href="#">
-            Features
-          </Link>
-          <Link color="text.secondary" href="#">
-            Testimonials
-          </Link>
-          <Link color="text.secondary" href="#">
-            Highlights
-          </Link>
-          <Link color="text.secondary" href="#">
-            Pricing
-          </Link>
-          <Link color="text.secondary" href="#">
-            FAQs
-          </Link> */}
-        </Box>
-        <Box
-          sx={{
-            display: "flex",
-            flexDirection: "column",
-            textAlign: { xs: "center", md: "left" },
-            gap: 1,
-            py: { xs: 4, sm: 0 },
-          }}
-        >
-          <Typography fontWeight={600}>Company</Typography>
-          <Link color="text.secondary" href="#">
-            About us
-          </Link>
-          <Link color="text.secondary" href="#">
-            Careers
-          </Link>
-        </Box>
-        <Box
-          sx={{
-            display: "flex",
-            flexDirection: "column",
-            textAlign: { xs: "center", md: "left" },
-            gap: 1,
-            pb: { xs: 4, sm: 0 },
-          }}
-        >
-          <Typography fontWeight={600}>Legal</Typography>
-          <Link color="text.secondary" href="#">
-            Terms
-          </Link>
-          <Link color="text.secondary" href="#">
-            Privacy
-          </Link>
-        </Box>
-      </Box>
       <Box
         sx={{
           display: "flex",
@@ -172,18 +61,24 @@ export default function Footer() {
           borderColor: "divider",
         }}
       >
-        <div>
-          <Link color="text.secondary" href="#">
+        <Box sx={{ ml: 2 }}>
+          <Link
+            color="text.secondary"
+            href="https://policies.google.com/privacy?hl=en"
+          >
             Privacy Policy
           </Link>
           <Typography display="inline" sx={{ mx: 0.5, opacity: 0.5 }}>
             &nbsp;•&nbsp;
           </Typography>
-          <Link color="text.secondary" href="#">
+          <Link
+            color="text.secondary"
+            href="https://policies.google.com/terms?hl=en-US"
+          >
             Terms of Service
           </Link>
           <Copyright />
-        </div>
+        </Box>
         <Stack
           direction="row"
           justifyContent="left"
@@ -191,11 +86,12 @@ export default function Footer() {
           useFlexGap
           sx={{
             color: "text.secondary",
+            pr: 2,
           }}
         >
           <IconButton
             color="inherit"
-            href="https://github.com/tristantanjh/EdenFood"
+            href="https://github.com/ryantangmj/Event-Management-System-React"
             aria-label="GitHub"
             sx={{ alignSelf: "center" }}
           >
@@ -203,7 +99,7 @@ export default function Footer() {
           </IconButton>
           <IconButton
             color="inherit"
-            href="https://sg.linkedin.com/in/hsianghui"
+            href="https://www.linkedin.com/in/ryantangmj"
             aria-label="LinkedIn"
             sx={{ alignSelf: "center" }}
           >
@@ -211,6 +107,6 @@ export default function Footer() {
           </IconButton>
         </Stack>
       </Box>
-    </Container>
+    </Box>
   );
 }
