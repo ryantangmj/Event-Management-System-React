@@ -2,7 +2,7 @@ import * as React from "react";
 import {
   Grid,
   Box,
-  Paper,
+  Button,
   Typography,
   TextField,
   CssBaseline,
@@ -10,8 +10,18 @@ import {
 import AspectRatio from "@mui/joy/AspectRatio";
 import singapore from "../../assets/singapore.jpeg";
 import { Link } from "react-router-dom";
+import { createTheme, ThemeProvider } from "@mui/material/styles";
 
 export default function LoginMain() {
+  const theme = createTheme({
+    palette: {
+      customColor: {
+        main: "#EFBC9B",
+        contrastText: "#fff",
+      },
+    },
+  });
+
   return (
     <Grid
       container
@@ -97,6 +107,17 @@ export default function LoginMain() {
             variant="outlined"
           />
           <Link to="/register">New? Register here</Link>
+          <ThemeProvider theme={theme}>
+            <Button
+              variant="contained"
+              size="large"
+              href="/login"
+              color="customColor"
+              sx={{ mt: 2, borderRadius: 25 }}
+            >
+              Login
+            </Button>
+          </ThemeProvider>
         </Box>
       </Grid>
     </Grid>
