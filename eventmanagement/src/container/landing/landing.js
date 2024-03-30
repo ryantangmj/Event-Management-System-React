@@ -2,14 +2,16 @@ import * as React from "react";
 import { Box, Button, CssBaseline, Grid, Typography } from "@mui/material";
 import AspectRatio from "@mui/joy/AspectRatio";
 import image from "../../assets/landing.avif";
+import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
+import Footer from "../../components/Footer/foooter.jsx";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 
 export default function Landing() {
   const theme = createTheme({
     palette: {
       customColor: {
-        main: "#EFBC9B",
-        contrastText: "#fff",
+        main: "#9CAFAA",
+        contrastText: "#FBF3D5",
       },
     },
   });
@@ -20,12 +22,57 @@ export default function Landing() {
       <Grid container sx={{ height: "100vh" }}>
         <Grid
           item
+          xs={12}
+          sm={12}
+          md={4}
+          backgroundColor="#FBF3D5"
+          sx={{
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "center",
+            alignItems: "flex-start",
+            pl: 8,
+            textAlign: "left",
+          }}
+        >
+          <Typography
+            fontFamily={"open sans, sans-serif"}
+            fontSize={40}
+            fontWeight={"bold"}
+            sx={{ color: "#9CAFAA" }}
+            gutterBottom
+          >
+            Welcome to Event Genesis
+          </Typography>
+          <Typography
+            fontFamily={"open sans, sans-serif"}
+            fontSize={24}
+            gutterBottom
+            sx={{ color: "#9CAFAA" }}
+          >
+            Where Every Event Finds its Beginning
+          </Typography>
+          <ThemeProvider theme={theme}>
+            <Button
+              variant="contained"
+              size="large"
+              href="/login"
+              color="customColor"
+              sx={{ borderRadius: 2 }}
+            >
+              Join Us Today!
+              <ArrowForwardIcon />
+            </Button>
+          </ThemeProvider>
+        </Grid>
+        <Grid
+          item
           xs={false}
           sm={false}
           md={8}
           sx={{
             position: "relative",
-            backgroundColor: "#D6DAC8",
+            backgroundColor: "#FBF3D5",
             backgroundSize: "cover",
             backgroundPosition: "center",
           }}
@@ -57,49 +104,8 @@ export default function Landing() {
             />
           </AspectRatio>
         </Grid>
-        <Grid
-          item
-          xs={12}
-          sm={12}
-          md={4}
-          backgroundColor="#FBF3D5"
-          sx={{
-            display: "flex",
-            flexDirection: "column",
-            justifyContent: "center",
-            alignItems: "flex-start",
-            pl: 4,
-            pr: 4,
-            textAlign: "left",
-          }}
-        >
-          <Typography
-            fontFamily={"open sans, sans-serif"}
-            fontSize={40}
-            fontWeight={"bold"}
-            gutterBottom
-          >
-            Welcome to Event Genesis
-          </Typography>
-          <Typography
-            fontFamily={"open sans, sans-serif"}
-            fontSize={24}
-            gutterBottom
-          >
-            Where Every Event Finds its Beginning
-          </Typography>
-          <ThemeProvider theme={theme}>
-            <Button
-              variant="contained"
-              size="large"
-              href="/login"
-              color="customColor" // Use the custom color from the theme
-            >
-              Join Us Today!
-            </Button>
-          </ThemeProvider>
-        </Grid>
       </Grid>
+      <Footer />
     </>
   );
 }

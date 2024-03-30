@@ -1,4 +1,4 @@
-import * as React from "react";
+import React, { useState, useEffect } from "react";
 import {
   Grid,
   Box,
@@ -11,6 +11,7 @@ import AspectRatio from "@mui/joy/AspectRatio";
 import singapore from "../../assets/singapore.jpeg";
 import { Link } from "react-router-dom";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
+import Api from "../../helpers/Api";
 
 export default function RegisterMain() {
   const theme = createTheme({
@@ -21,6 +22,30 @@ export default function RegisterMain() {
       },
     },
   });
+
+  const [formData, setFormData] = useState({
+    name: "",
+    email: "",
+    contactDetails: "",
+    password: "",
+  });
+
+  const handleChange = (event) => {
+    setFormData({
+      ...formData,
+      [event.target.name]: event.target.value,
+    });
+  };
+
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    try {
+      const response = await Api.createAccount(formData);
+      const account = await response.json();
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   return (
     <Grid
@@ -96,40 +121,47 @@ export default function RegisterMain() {
           >
             Register
           </Typography>
-          <TextField
-            sx={{ my: 1, width: "100%" }}
-            label="Name"
-            variant="outlined"
-          />
-          <TextField
-            sx={{ my: 1, width: "100%" }}
-            label="Email"
-            variant="outlined"
-          />
-          <TextField
-            sx={{ my: 1, width: "100%" }}
-            label="Phone Number"
-            variant="outlined"
-          />
-          <TextField
-            sx={{ my: 1, width: "100%" }}
-            label="Password"
-            variant="outlined"
-          />
-          <Link sx={{ width: "200%" }} to="/login">
-            Already have an Account? Log in
-          </Link>
-          <ThemeProvider theme={theme}>
-            <Button
-              variant="contained"
-              size="large"
-              href="/login"
-              color="customColor"
-              sx={{ mt: 2, borderRadius: 25 }}
-            >
-              Register Now!
-            </Button>
-          </ThemeProvider>
+          <form onSubmit={handleSubmit}>
+            <TextField
+              sx={{ my: 1, width: "100%" }}
+              label="Name"
+              name="name"
+              variant="outlined"
+            />
+            <TextField
+              sx={{ my: 1, width: "100%" }}
+              label="Email"
+              name="email"
+              variant="outlined"
+            />
+            <TextField
+              sx={{ my: 1, width: "100%" }}
+              label="Phone Number"
+              name="contactDetails"
+              variant="outlined"
+            />
+            <TextField
+              sx={{ my: 1, width: "100%" }}
+              label="Password"
+              name="password"
+              variant="outlined"
+            />
+            <Link sx={{ width: "200%" }} to="/login">
+              Already have an Account? Log in
+            </Link>
+            <ThemeProvider theme={theme}>
+              <Button
+                type="submit"
+                variant="contained"
+                size="large"
+                href="/login"
+                color="customColor"
+                sx={{ mt: 2, borderRadius: 25 }}
+              >
+                Register Now!
+              </Button>
+            </ThemeProvider>
+          </form>
         </Box>
       </Grid>
     </Grid>

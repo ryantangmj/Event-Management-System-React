@@ -4,6 +4,7 @@ import Container from "@mui/material/Container";
 import Grid from "@mui/material/Grid";
 import LoginMain from "./loginMain.js";
 import { CssBaseline } from "@mui/material";
+import Footer from "../../components/Footer/foooter.jsx";
 
 export default function Register() {
   return (
@@ -15,11 +16,11 @@ export default function Register() {
           flexDirection: "column",
           alignItems: "center",
           justifyContent: "center",
-          height: "105vh",
         }}
       >
         <LoginMain />
       </Container>
+      <Footer />
     </Box>
   );
 }
