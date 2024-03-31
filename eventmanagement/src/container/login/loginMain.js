@@ -20,10 +20,24 @@ import { Link } from "react-router-dom";
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
+import { useNavigate } from "react-router-dom";
+import Api from "../../helpers/Api";
 
 export default function LoginMain() {
+  const navigate = useNavigate();
   const [showPassword, setShowPassword] = React.useState(false);
   const handleClickShowPassword = () => setShowPassword((show) => !show);
+  const [errorMessage, setErrorMessage] = useState("");
+  const [open, setOpen] = React.useState();
+
+  const theme = createTheme({
+    palette: {
+      customColor: {
+        main: "#EFBC9B",
+        contrastText: "#fff",
+      },
+    },
+  });
 
   const handleMouseDownPassword = (event) => {
     event.preventDefault();
@@ -43,14 +57,34 @@ export default function LoginMain() {
     password: "",
   });
 
-  const theme = createTheme({
-    palette: {
-      customColor: {
-        main: "#EFBC9B",
-        contrastText: "#fff",
-      },
-    },
-  });
+  const handleClose = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+
+    setOpen(false);
+  };
+
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+
+    try {
+      const isAuthenticated = await Api.authenticateAccount(formData);
+      if (isAuthenticated) {
+        navigate("/home");
+      } else {
+        setErrorMessage(
+          "Authentication failed. Please check your credentials."
+        );
+        setOpen(true);
+      }
+    } catch (error) {
+      setErrorMessage(
+        error.message || "An error occurred during authentication."
+      );
+      setOpen(true);
+    }
+  };
 
   return (
     <Grid
@@ -118,57 +152,75 @@ export default function LoginMain() {
             width: { xs: "100%", md: "30%" },
           }}
         >
-          <Typography
-            fontFamily={"open sans, sans-serif"}
-            fontSize={24}
-            fontWeight={"bold"}
-            color={"#181B13"}
+          <Snackbar
+            open={open}
+            autoHideDuration={6000}
+            onClose={handleClose}
+            anchorOrigin={{ vertical: "top", horizontal: "right" }}
           >
-            Login
-          </Typography>
-          <TextField
-            sx={{ my: 1, width: "140%" }}
-            label="Email"
-            name="email"
-            onChange={handleChange}
-            variant="outlined"
-          />
-          <FormControl sx={{ m: 1, width: "140%" }} variant="outlined">
-            <InputLabel htmlFor="outlined-adornment-password">
-              Password
-            </InputLabel>
-            <OutlinedInput
-              id="password"
-              name="password"
-              onChange={handleChange}
-              type={showPassword ? "text" : "password"}
-              endAdornment={
-                <InputAdornment position="end">
-                  <IconButton
-                    aria-label="toggle password visibility"
-                    onClick={handleClickShowPassword}
-                    onMouseDown={handleMouseDownPassword}
-                    edge="end"
-                  >
-                    {showPassword ? <VisibilityOff /> : <Visibility />}
-                  </IconButton>
-                </InputAdornment>
-              }
-              label="Password"
-            />
-          </FormControl>
-          <Link to="/register">New? Register here</Link>
-          <ThemeProvider theme={theme}>
-            <Button
-              variant="contained"
-              size="large"
-              href="/login"
-              color="customColor"
-              sx={{ mt: 2, borderRadius: 25 }}
+            <Alert
+              onClose={handleClose}
+              severity="error"
+              variant="filled"
+              sx={{ width: "100%" }}
+            >
+              {errorMessage}
+            </Alert>
+          </Snackbar>
+          <form onSubmit={handleSubmit}>
+            <Typography
+              fontFamily={"open sans, sans-serif"}
+              fontSize={24}
+              fontWeight={"bold"}
+              color={"#181B13"}
             >
               Login
-            </Button>
-          </ThemeProvider>
+            </Typography>
+            <TextField
+              sx={{ my: 1, width: "140%" }}
+              label="Email"
+              name="email"
+              onChange={handleChange}
+              variant="outlined"
+            />
+            <FormControl sx={{ width: "140%" }} variant="outlined">
+              <InputLabel htmlFor="outlined-adornment-password">
+                Password
+              </InputLabel>
+              <OutlinedInput
+                id="password"
+                name="password"
+                onChange={handleChange}
+                type={showPassword ? "text" : "password"}
+                endAdornment={
+                  <InputAdornment position="end">
+                    <IconButton
+                      aria-label="toggle password visibility"
+                      onClick={handleClickShowPassword}
+                      onMouseDown={handleMouseDownPassword}
+                      edge="end"
+                    >
+                      {showPassword ? <VisibilityOff /> : <Visibility />}
+                    </IconButton>
+                  </InputAdornment>
+                }
+                label="Password"
+              />
+            </FormControl>
+
+            <Link to="/register">New? Register here</Link>
+            <ThemeProvider theme={theme}>
+              <Button
+                type="submit"
+                variant="contained"
+                size="large"
+                color="customColor"
+                sx={{ mt: 2, borderRadius: 25 }}
+              >
+                Login
+              </Button>
+            </ThemeProvider>
+          </form>
         </Box>
       </Grid>
     </Grid>

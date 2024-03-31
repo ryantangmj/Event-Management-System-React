@@ -26,16 +26,20 @@ const Api = {
       });
   },
   authenticateAccount(data) {
-    return fetch(`${SERVER_PREFIX}/authenticateAccount`, {
+    return fetch(`${SERVER_PREFIX}/account/authenticateAccount`, {
       headers: {
         Accept: "application/json",
         "Content-Type": "application/json",
       },
       method: "POST",
       body: JSON.stringify(data),
-    }).then((response) => {
-      console.log(response);
-    });
+    })
+      .then((response) => response.json())
+      .then((data) => data.authenticated)
+      .catch((error) => {
+        console.error("Authentication error:", error);
+        return false;
+      });
   },
 };
 
