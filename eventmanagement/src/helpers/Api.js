@@ -10,15 +10,31 @@ const Api = {
       },
       method: "POST",
       body: JSON.stringify(data),
+    })
+      .then((response) =>
+        response.json().then((body) => ({
+          ok: response.ok,
+          body,
+        }))
+      )
+      .then(({ ok, body }) => {
+        if (ok) {
+          return body; // Successful response body
+        } else {
+          throw new Error(body.error || "Something went wrong"); // Error handling
+        }
+      });
+  },
+  authenticateAccount(data) {
+    return fetch(`${SERVER_PREFIX}/authenticateAccount`, {
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+      method: "POST",
+      body: JSON.stringify(data),
     }).then((response) => {
-      if (!response.ok) {
-        return response
-          .json()
-          .then((body) =>
-            Promise.reject(new Error(body.error || "Something went wrong"))
-          );
-      }
-      return response.json();
+      console.log(response);
     });
   },
 };

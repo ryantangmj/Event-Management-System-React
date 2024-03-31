@@ -1,4 +1,4 @@
-import * as React from "react";
+import React, { useState } from "react";
 import {
   Grid,
   Box,
@@ -6,13 +6,43 @@ import {
   Typography,
   TextField,
   CssBaseline,
+  FormControl,
+  InputLabel,
+  OutlinedInput,
+  InputAdornment,
+  IconButton,
+  Snackbar,
+  Alert,
 } from "@mui/material";
 import AspectRatio from "@mui/joy/AspectRatio";
 import singapore from "../../assets/singapore.jpeg";
 import { Link } from "react-router-dom";
+import Visibility from "@mui/icons-material/Visibility";
+import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 
 export default function LoginMain() {
+  const [showPassword, setShowPassword] = React.useState(false);
+  const handleClickShowPassword = () => setShowPassword((show) => !show);
+
+  const handleMouseDownPassword = (event) => {
+    event.preventDefault();
+  };
+
+  const handleChange = (event) => {
+    setFormData({
+      ...formData,
+      [event.target.name]: event.target.value,
+    });
+
+    console.log(formData);
+  };
+
+  const [formData, setFormData] = useState({
+    email: "",
+    password: "",
+  });
+
   const theme = createTheme({
     palette: {
       customColor: {
@@ -99,13 +129,34 @@ export default function LoginMain() {
           <TextField
             sx={{ my: 1, width: "140%" }}
             label="Email"
+            name="email"
+            onChange={handleChange}
             variant="outlined"
           />
-          <TextField
-            sx={{ my: 1, width: "140%" }}
-            label="Password"
-            variant="outlined"
-          />
+          <FormControl sx={{ m: 1, width: "140%" }} variant="outlined">
+            <InputLabel htmlFor="outlined-adornment-password">
+              Password
+            </InputLabel>
+            <OutlinedInput
+              id="password"
+              name="password"
+              onChange={handleChange}
+              type={showPassword ? "text" : "password"}
+              endAdornment={
+                <InputAdornment position="end">
+                  <IconButton
+                    aria-label="toggle password visibility"
+                    onClick={handleClickShowPassword}
+                    onMouseDown={handleMouseDownPassword}
+                    edge="end"
+                  >
+                    {showPassword ? <VisibilityOff /> : <Visibility />}
+                  </IconButton>
+                </InputAdornment>
+              }
+              label="Password"
+            />
+          </FormControl>
           <Link to="/register">New? Register here</Link>
           <ThemeProvider theme={theme}>
             <Button

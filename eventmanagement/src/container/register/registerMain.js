@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import {
   Grid,
   Box,
@@ -100,9 +100,12 @@ export default function RegisterMain() {
     }
 
     try {
-      const response = await Api.createAccount(formData);
+      await Api.createAccount(formData);
+      navigate("/login");
     } catch (error) {
-      setErrorMessage("This email already has an account");
+      setErrorMessage(
+        error.message || "An error occurred while creating the account."
+      );
       setOpen(true);
     }
   };
