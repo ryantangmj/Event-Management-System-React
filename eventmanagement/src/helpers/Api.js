@@ -1,4 +1,5 @@
-const SERVER_PREFIX = "http://localhost:8080/CRM-war/webresources";
+const SERVER_PREFIX =
+  "http://localhost:8080/EventManagementSystem-war/webresources";
 
 const Api = {
   createAccount(data) {
@@ -9,6 +10,15 @@ const Api = {
       },
       method: "POST",
       body: JSON.stringify(data),
+    }).then((response) => {
+      if (!response.ok) {
+        return response
+          .json()
+          .then((body) =>
+            Promise.reject(new Error(body.error || "Something went wrong"))
+          );
+      }
+      return response.json();
     });
   },
 };
