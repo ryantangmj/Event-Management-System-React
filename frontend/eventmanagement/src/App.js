@@ -6,7 +6,7 @@ import Box from "@mui/material/Box";
 import Container from "@mui/material/Container";
 import { Routes, Route } from "react-router-dom";
 import HostedEvents from "./container/hostedEvents/hostedEventsMain";
-import AttendedEvents from "./container/hostedEvents/hostedEventsMain";
+import RegisteredEvents from "./container/attendedEvents/attendedEventsMain";
 import Profile from "./container/profile/profile";
 import { CssBaseline } from "@mui/material";
 import AddEvent from "./container/addEvent/addEvent";
@@ -22,7 +22,7 @@ function App() {
         <Route path="" element={<Landing />} />
         <Route path="/home" element={<Home />} />
         <Route path="/hostedEvents" element={<HostedEvents />} />
-        <Route path="/attendedEvents" element={<AttendedEvents />} />
+        <Route path="/attendedEvents" element={<RegisteredEvents />} />
         <Route path="/profile" element={<Profile />} />
         <Route path="/addEvent" element={<AddEvent />} />
         <Route path="/login" element={<Login />} />

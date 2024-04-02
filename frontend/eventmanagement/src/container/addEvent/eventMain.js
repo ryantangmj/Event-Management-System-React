@@ -56,17 +56,17 @@ export default function AddEventDetails() {
   const handleSubmit = async (event) => {
     event.preventDefault();
 
-    // if (
-    //   !formData.date ||
-    //   !formData.deadline ||
-    //   !formData.description ||
-    //   !formData.location ||
-    //   !formData.title
-    // ) {
-    //   setErrorMessage("All fields are required");
-    //   setOpen(true);
-    //   return;
-    // }
+    if (
+      !formData.date ||
+      !formData.deadline ||
+      !formData.description ||
+      !formData.location ||
+      !formData.title
+    ) {
+      setErrorMessage("All fields are required");
+      setOpen(true);
+      return;
+    }
 
     const preparedData = {
       ...formData,

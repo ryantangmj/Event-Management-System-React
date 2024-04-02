@@ -1,14 +1,26 @@
 import React, { useState, useEffect } from "react";
-import Box from "@mui/material/Box";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
-import CardMedia from "@mui/material/CardMedia";
 import Typography from "@mui/material/Typography";
 import { useTheme } from "@mui/material/styles";
 import useMediaQuery from "@mui/material/useMediaQuery";
-import Stack from "@mui/material/Stack";
 
-export default function ItemCard() {
+function formatDate(dateString) {
+  const date = new Date(dateString);
+  const options = {
+    year: "numeric",
+    month: "2-digit",
+    day: "2-digit",
+    hour: "2-digit",
+    minute: "2-digit",
+    hour12: false,
+  };
+  return new Intl.DateTimeFormat("en-GB", options)
+    .format(date)
+    .replace(",", "");
+}
+
+export default function ItemCard({ events }) {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
 
@@ -23,47 +35,56 @@ export default function ItemCard() {
       }}
     >
       <CardContent>
-        {/* Custom title based on merchant uploads */}
-        <Typography
-          component="div"
-          fontFamily="open sans, sans-serif"
-          sx={{
-            fontSize: isMobile ? 15 : 19,
-            fontWeight: 550,
-            maxWidth: isMobile ? "200px" : "275px",
-            display: "inline-block",
-            wordWrap: "break-word",
-            lineHeight: "1.2",
-            mb: 0.2,
-          }}
-        >
-          "Event Titile"
-          {/* Norwegian Salmon (100g) */}
-        </Typography>
-        {/* Custom number of days based on merchant uploads */}
-        <Typography
-          sx={{ mb: 1.5, fontSize: isMobile ? 11 : 14 }}
-          color="text.secondary"
-          fontFamily="open sans, sans-serif"
-        >
-          Event Date
-        </Typography>
-        {/* Custom price based on merchant uploads */}
-        <Typography
-          fontWeight={800}
-          fontFamily="nunito, sans-serif"
-          sx={{ mt: -0.7, fontSize: isMobile ? 18 : 22 }}
-        >
-          Event Description
-        </Typography>
+        {events.map((event, index) => (
+          <div
+            key={index}
+            style={{
+              padding: "10px",
+              borderRadius: "8px",
+              margin: "10px",
+            }}
+          >
+            <Typography
+              component="div"
+              fontFamily="'Helvetica Neue', Helvetica, Arial, sans-serif"
+              sx={{
+                fontSize: isMobile ? "1rem" : "1.7rem",
+                fontWeight: "bold",
+                maxWidth: isMobile ? "200px" : "275px",
+                display: "block",
+                wordWrap: "break-word",
+                lineHeight: "1.4",
+                mb: "8px",
+                color: "#333",
+              }}
+            >
+              Title: {event.title}
+            </Typography>
+            <Typography
+              sx={{
+                mb: "12px",
+                fontSize: isMobile ? "0.85rem" : "1.25rem",
+                color: "#666",
+              }}
+              fontFamily="'Helvetica Neue', Helvetica, Arial, sans-serif"
+            >
+              Date: {formatDate(event.date.replace("[UTC]", ""))}
+            </Typography>
+            <Typography
+              fontFamily="'Helvetica Neue', Helvetica, Arial, sans-serif"
+              sx={{
+                mt: "-0.7",
+                fontSize: isMobile ? "1rem" : "1rem",
+                color: "#333",
+                fontWeight: "normal",
+                lineHeight: "1.6",
+              }}
+            >
+              Description: {event.description}
+            </Typography>
+          </div>
+        ))}
       </CardContent>
-      <Stack direction="row" justifyContent="space-between" alignItems="center">
-        <CardContent
-          sx={{
-            mt: isMobile ? -3.5 : -3,
-          }}
-        ></CardContent>
-      </Stack>
     </Card>
   );
 }

@@ -117,7 +117,7 @@ function Navbar() {
                       pb: 4.4,
                     }}
                   >
-                    ATTENDED EVENTS
+                    REGISTERED EVENTS
                   </Typography>
                 </MenuItem>
                 <MenuItem
