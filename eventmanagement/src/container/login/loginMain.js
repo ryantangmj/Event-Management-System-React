@@ -69,10 +69,11 @@ export default function LoginMain() {
     event.preventDefault();
 
     try {
-      const isAuthenticated = await Api.authenticateAccount(formData);
-      if (isAuthenticated) {
+      const accountData = await Api.authenticateAccount(formData);
+      if (accountData) {
         navigate("/home");
       } else {
+        // It's likely this branch may not be needed if your API call throws an error on failure
         setErrorMessage(
           "Authentication failed. Please check your credentials."
         );
@@ -208,7 +209,10 @@ export default function LoginMain() {
               />
             </FormControl>
 
-            <Link to="/register">New? Register here</Link>
+            <Link to="/register">
+              New? Register here
+              <br />
+            </Link>
             <ThemeProvider theme={theme}>
               <Button
                 type="submit"
