@@ -21,7 +21,7 @@ import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import Api from "../../helpers/Api";
-import gardening from "../../assets/gardening.jpeg";
+import cleanup from "../../assets/cleanup.jpeg";
 
 export default function EditProfile() {
   const navigate = useNavigate();
@@ -171,7 +171,7 @@ export default function EditProfile() {
               height: "100%",
               width: "100%",
             }}
-            src={gardening}
+            src={cleanup}
             alt="Image of past event"
           />
         </AspectRatio>
