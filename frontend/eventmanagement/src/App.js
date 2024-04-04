@@ -13,19 +13,21 @@ import Register from "./container/register/register";
 
 function App() {
   return (
-    <Box>
-      <CssBaseline />
-      <Routes>
-        <Route path="" element={<Landing />} />
-        <Route path="/home" element={<Home />} />
-        <Route path="/hostedEvents" element={<HostedEvents />} />
-        <Route path="/attendedEvents" element={<RegisteredEvents />} />
-        <Route path="/profile" element={<Profile />} />
-        <Route path="/addEvent" element={<AddEvent />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/register" element={<Register />} />
-      </Routes>
-    </Box>
+    <>
+      <Box>
+        <CssBaseline />
+        <Routes>
+          <Route path="" element={<Landing />} />
+          <Route path="/home" element={<Home />} />
+          <Route path="/hostedEvents" element={<HostedEvents />} />
+          <Route path="/attendedEvents" element={<RegisteredEvents />} />
+          <Route path="/profile" element={<Profile />} />
+          <Route path="/addEvent" element={<AddEvent />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/register" element={<Register />} />
+        </Routes>
+      </Box>
+    </>
   );
 }
 

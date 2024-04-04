@@ -15,7 +15,7 @@ export default function Home() {
         sx={() => ({
           width: "100%",
           bgcolor: "#FBF3D5",
-          height: "100%",
+          minHeight: "70vh",
         })}
       >
         <Container
