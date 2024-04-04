@@ -20,7 +20,7 @@ function formatDate(dateString) {
     .replace(",", "");
 }
 
-export default function ItemCard({ events }) {
+export default function ItemCard({ event, index }) {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
 
@@ -35,55 +35,53 @@ export default function ItemCard({ events }) {
       }}
     >
       <CardContent>
-        {events.map((event, index) => (
-          <div
-            key={index}
-            style={{
-              padding: "10px",
-              borderRadius: "8px",
-              margin: "10px",
+        <div
+          key={index}
+          style={{
+            padding: "10px",
+            borderRadius: "8px",
+            margin: "10px",
+          }}
+        >
+          <Typography
+            component="div"
+            fontFamily="'Helvetica Neue', Helvetica, Arial, sans-serif"
+            sx={{
+              fontSize: isMobile ? "1rem" : "1.7rem",
+              fontWeight: "bold",
+              maxWidth: isMobile ? "200px" : "275px",
+              display: "block",
+              wordWrap: "break-word",
+              lineHeight: "1.4",
+              mb: "8px",
+              color: "#333",
             }}
           >
-            <Typography
-              component="div"
-              fontFamily="'Helvetica Neue', Helvetica, Arial, sans-serif"
-              sx={{
-                fontSize: isMobile ? "1rem" : "1.7rem",
-                fontWeight: "bold",
-                maxWidth: isMobile ? "200px" : "275px",
-                display: "block",
-                wordWrap: "break-word",
-                lineHeight: "1.4",
-                mb: "8px",
-                color: "#333",
-              }}
-            >
-              Title: {event.title}
-            </Typography>
-            <Typography
-              sx={{
-                mb: "12px",
-                fontSize: isMobile ? "0.85rem" : "1.25rem",
-                color: "#666",
-              }}
-              fontFamily="'Helvetica Neue', Helvetica, Arial, sans-serif"
-            >
-              Date: {formatDate(event.date.replace("[UTC]", ""))}
-            </Typography>
-            <Typography
-              fontFamily="'Helvetica Neue', Helvetica, Arial, sans-serif"
-              sx={{
-                mt: "-0.7",
-                fontSize: isMobile ? "1rem" : "1rem",
-                color: "#333",
-                fontWeight: "normal",
-                lineHeight: "1.6",
-              }}
-            >
-              Description: {event.description}
-            </Typography>
-          </div>
-        ))}
+            Title: {event.title}
+          </Typography>
+          <Typography
+            sx={{
+              mb: "12px",
+              fontSize: isMobile ? "0.85rem" : "1.25rem",
+              color: "#666",
+            }}
+            fontFamily="'Helvetica Neue', Helvetica, Arial, sans-serif"
+          >
+            Date: {formatDate(event.date.replace("[UTC]", ""))}
+          </Typography>
+          <Typography
+            fontFamily="'Helvetica Neue', Helvetica, Arial, sans-serif"
+            sx={{
+              mt: "-0.7",
+              fontSize: isMobile ? "1rem" : "1rem",
+              color: "#333",
+              fontWeight: "normal",
+              lineHeight: "1.6",
+            }}
+          >
+            Description: {event.description}
+          </Typography>
+        </div>
       </CardContent>
     </Card>
   );

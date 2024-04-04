@@ -76,7 +76,7 @@ export default function AddEventDetails() {
 
     try {
       await Api.createEvent(preparedData);
-      navigate("/home");
+      navigate("/hostedEvents");
     } catch (error) {
       setErrorMessage(
         error.message || "An error occurred while creating the account."
@@ -232,7 +232,7 @@ export default function AddEventDetails() {
                 onChange={(newValue) => {
                   handleChange({ target: { name: "date", value: newValue } });
                 }}
-                minDate={formData.deadline != "" ? formData.deadline : dayjs()}
+                minDate={formData.deadline !== "" ? formData.deadline : dayjs()}
                 label="Date"
                 sx={{ my: 1, width: "140%" }}
               />

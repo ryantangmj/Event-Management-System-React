@@ -48,7 +48,7 @@ function Navbar() {
                 sx={{
                   display: "flex",
                   alignItems: "center",
-                  ml: "-25%",
+                  ml: "-15%",
                   px: 0,
                 }}
               >
@@ -167,7 +167,7 @@ function Navbar() {
                   padding: "3px",
                   borderRadius: "15px",
                   minWidth: "70px",
-                  mr: "-25%",
+                  mr: "-15%",
                   "&:hover": {
                     backgroundColor: "#D6DAC8",
                     color: "#FFF",

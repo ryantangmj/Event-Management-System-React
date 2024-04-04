@@ -144,10 +144,14 @@ export default function AttendedEvents() {
             <h1>Registered Events</h1>
             <Grid
               container
-              spacing={1}
+              spacing={4}
               sx={{ justifyContent: "center", alignItems: "center" }}
             >
-              <ItemCard events={events} />
+              {events.map((event, index) => (
+                <Grid item key={index}>
+                  <ItemCard event={event} />
+                </Grid>
+              ))}
             </Grid>
           </Container>
         )}

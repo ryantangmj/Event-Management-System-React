@@ -141,13 +141,49 @@ export default function RegisteredEvents() {
               pt: "7rem",
             }}
           >
-            <h1>Hosted Events</h1>
+            <Box
+              sx={{
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "space-between",
+                width: "100%",
+                p: 1,
+              }}
+            >
+              <Box
+                sx={{ flexGrow: 1, display: "flex", justifyContent: "center" }}
+              >
+                <h1>Hosted Events</h1>
+              </Box>
+              <ThemeProvider theme={theme}>
+                <Button
+                  variant="contained"
+                  size="large"
+                  href="/addEvent"
+                  color="customColor"
+                  sx={{ borderRadius: 2, mr: "-12%" }}
+                >
+                  Add Event
+                  <AddCircleOutlineIcon sx={{ ml: 0.5, mt: -0.3 }} />
+                </Button>
+              </ThemeProvider>
+            </Box>
             <Grid
               container
               spacing={1}
               sx={{ justifyContent: "center", alignItems: "center" }}
             >
-              <ItemCard events={events} />
+              <Grid
+                container
+                spacing={4}
+                sx={{ justifyContent: "center", alignItems: "center" }}
+              >
+                {events.map((event, index) => (
+                  <Grid item key={index}>
+                    <ItemCard event={event} />
+                  </Grid>
+                ))}
+              </Grid>
             </Grid>
           </Container>
         )}
