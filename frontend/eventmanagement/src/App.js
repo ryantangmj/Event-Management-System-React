@@ -1,9 +1,6 @@
 import "./App.css";
-import Navbar from "./components/Navbar/navbar";
-import Footer from "./components/Footer/foooter";
 import Home from "./container/home/homeMain";
 import Box from "@mui/material/Box";
-import Container from "@mui/material/Container";
 import { Routes, Route } from "react-router-dom";
 import HostedEvents from "./container/hostedEvents/hostedEventsMain";
 import RegisteredEvents from "./container/attendedEvents/attendedEventsMain";
