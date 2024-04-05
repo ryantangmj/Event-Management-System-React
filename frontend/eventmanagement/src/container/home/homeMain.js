@@ -9,6 +9,7 @@ import Api from "../../helpers/Api";
 
 export default function Home() {
   const [events, setEvents] = useState([]);
+  const [searchQuery, setSearchQuery] = useState("");
 
   useEffect(() => {
     const fetchEvents = async () => {
@@ -43,16 +44,49 @@ export default function Home() {
             pt: "7rem",
           }}
         >
+          <Box
+            sx={{
+              width: "100%",
+              display: "flex",
+              justifyContent: "center",
+              p: 2,
+            }}
+          >
+            <input
+              type="text"
+              placeholder="Search events..."
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              style={{
+                width: "87%",
+                padding: "10px",
+                fontSize: "16px",
+                borderRadius: "8px",
+                border: "1px solid #ccc",
+              }}
+            />
+          </Box>
           <Grid
             container
             spacing={2}
             sx={{ justifyContent: "center", alignItems: "center" }}
           >
-            {events.map((event, index) => (
-              <Grid item key={index}>
-                <ItemCard event={event} />
-              </Grid>
-            ))}
+            {events
+              .filter(
+                (event) =>
+                  event.title
+                    .toLowerCase()
+                    .includes(searchQuery.toLowerCase()) ||
+                  event.date.includes(searchQuery) ||
+                  event.description
+                    .toLowerCase()
+                    .includes(searchQuery.toLowerCase())
+              )
+              .map((event, index) => (
+                <Grid item key={index}>
+                  <ItemCard event={event} />
+                </Grid>
+              ))}
           </Grid>
         </Container>
       </Box>

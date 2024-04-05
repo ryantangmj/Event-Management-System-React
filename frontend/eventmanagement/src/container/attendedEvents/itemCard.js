@@ -28,7 +28,7 @@ export default function ItemCard({ event }) {
     <Card
       sx={{
         position: "relative",
-        maxWidth: isMobile ? 150 : 275,
+        maxWidth: isMobile ? 150 : 300,
         borderRadius: "8px",
         mb: "1rem",
         m: 2,
