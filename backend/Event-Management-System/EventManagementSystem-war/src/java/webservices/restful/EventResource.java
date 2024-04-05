@@ -42,7 +42,7 @@ import session.EventSessionLocal;
 @Path("event")
 public class EventResource {
 
-    SimpleDateFormat inputFormat = new SimpleDateFormat("EEE, dd MMM yyyy HH:mm:ss 'GMT'", Locale.ENGLISH);
+    SimpleDateFormat inputFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.ENGLISH);
     @EJB
     private EventSessionLocal eventSessionLocal;
     @EJB

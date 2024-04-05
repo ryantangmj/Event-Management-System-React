@@ -18,6 +18,7 @@ import dayjs from "dayjs";
 import { DateTimePicker } from "@mui/x-date-pickers/DateTimePicker";
 import { useNavigate } from "react-router-dom";
 import Api from "../../helpers/Api";
+import moment from "moment-timezone";
 
 export default function AddEventDetails() {
   const navigate = useNavigate();
@@ -70,12 +71,19 @@ export default function AddEventDetails() {
 
     const preparedData = {
       ...formData,
-      date: formData.date.format("YYYY-MM-DDTHH:mm:ss"),
-      deadline: formData.deadline.format("YYYY-MM-DDTHH:mm:ss"),
+      date: moment(formData.date)
+        .tz("Asia/Singapore")
+        .subtract(8, "hours")
+        .format("YYYY-MM-DDTHH:mm:ss"),
+      deadline: moment(formData.deadline)
+        .tz("Asia/Singapore")
+        .subtract(8, "hours")
+        .format("YYYY-MM-DDTHH:mm:ss"),
     };
 
     try {
       await Api.createEvent(preparedData);
+      console.log(preparedData);
       navigate("/hostedEvents");
     } catch (error) {
       setErrorMessage(

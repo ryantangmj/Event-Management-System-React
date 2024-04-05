@@ -14,6 +14,7 @@ function formatDate(dateString) {
     hour: "2-digit",
     minute: "2-digit",
     hour12: false,
+    timeZone: "Asia/Singapore",
   };
   return new Intl.DateTimeFormat("en-GB", options)
     .format(date)
@@ -28,7 +29,7 @@ export default function ItemCard({ event, index }) {
     <Card
       sx={{
         position: "relative",
-        maxWidth: isMobile ? 150 : 275,
+        maxWidth: isMobile ? 150 : 300,
         borderRadius: "8px",
         mb: "1rem",
         m: 2,
