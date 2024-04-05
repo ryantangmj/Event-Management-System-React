@@ -33,6 +33,9 @@ export default function ItemCard({ event }) {
         borderRadius: "8px",
         mb: "1rem",
         m: 2,
+        ":hover": {
+          boxShadow: 20,
+        },
       }}
     >
       <CardMedia

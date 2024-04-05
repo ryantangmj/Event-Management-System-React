@@ -6,9 +6,10 @@ import ItemCard from "./itemCard.js";
 import Navbar from "../../components/Navbar/navbar.jsx";
 import Footer from "../../components/Footer/foooter.jsx";
 import Api from "../../helpers/Api";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 export default function Home() {
+  const navigate = useNavigate();
   const [events, setEvents] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
 
@@ -86,12 +87,12 @@ export default function Home() {
               )
               .map((event) => (
                 <Grid item key={event.id}>
-                  <Link
-                    to={`/event/${event.id}`}
-                    style={{ textDecoration: "none" }}
+                  <div
+                    onClick={() => navigate(`/event/${event.id}`)}
+                    style={{ textDecoration: "none", cursor: "pointer" }}
                   >
                     <ItemCard event={event} />
-                  </Link>
+                  </div>
                 </Grid>
               ))}
           </Grid>

@@ -56,7 +56,11 @@ export default function EventDetail() {
               justifyContent: "center",
             }}
           >
-            <EventDetailsMain event={event} organiser={organiser} />
+            <EventDetailsMain
+              id={id}
+              selectedEvent={event}
+              organiser={organiser}
+            />
           </Container>
         </Container>
       </Box>

@@ -9,13 +9,10 @@ import entity.Event;
 import java.security.Principal;
 import java.util.List;
 import javax.ejb.EJB;
-import javax.json.Json;
-import javax.json.JsonObject;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.Produces;
 import javax.ws.rs.GET;
-import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PUT;
 import javax.ws.rs.PathParam;
@@ -170,16 +167,6 @@ public class ProtectedResource {
     @Produces(MediaType.APPLICATION_JSON)
     public String getContact(@PathParam("account_id") Long aId) {
         return accountSessionLocal.getContactDetails(aId);
-    }
-
-    @PUT
-    @Path("/addEvent/{event_id}")
-    @Produces(MediaType.APPLICATION_JSON)
-    public Response addEvent(@QueryParam("aId") Long aId, @QueryParam("eId") Long eId) {
-        Event e = eventSessionLocal.getEvent(eId);
-        Account a = accountSessionLocal.getAccount(aId);
-        accountSessionLocal.addNewEvent(a, e);
-        return Response.status(204).build();
     }
 
     @PUT

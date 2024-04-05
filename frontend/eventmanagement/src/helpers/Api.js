@@ -201,6 +201,128 @@ const Api = {
         throw error;
       });
   },
+  fetchParticipants(id) {
+    const token = localStorage.getItem("jwtToken");
+
+    return fetch(`${SERVER_PREFIX}/event/participants/${id}`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+      method: "GET",
+    })
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("Failed to fetch participants");
+        }
+        return response.json();
+      })
+      .catch((error) => {
+        console.error("Request error:", error);
+        throw error;
+      });
+  },
+  fetchAttendees(id) {
+    const token = localStorage.getItem("jwtToken");
+
+    return fetch(`${SERVER_PREFIX}/event/attendees/${id}`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+      method: "GET",
+    })
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("Failed to fetch attendees");
+        }
+        return response.json();
+      })
+      .catch((error) => {
+        console.error("Request error:", error);
+        throw error;
+      });
+  },
+  isRegistered(id) {
+    const token = localStorage.getItem("jwtToken");
+
+    return fetch(`${SERVER_PREFIX}/event/isRegistered/${id}`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+      method: "GET",
+    })
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("Failed to fetch attendees");
+        }
+        return response.json();
+      })
+      .catch((error) => {
+        console.error("Request error:", error);
+        throw error;
+      });
+  },
+  registerForEvent(eventId) {
+    const token = localStorage.getItem("jwtToken");
+
+    return fetch(`${SERVER_PREFIX}/event/addParticipant?eId=${eventId}`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+      method: "POST",
+    })
+      .then((response) => {
+        if (!response.ok) {
+          return response.text().then((text) => {
+            throw new Error(text);
+          });
+        }
+        return response.text();
+      })
+      .then((message) => {
+        console.log(message);
+        return message;
+      })
+      .catch((error) => {
+        console.error("Request error:", error);
+        throw error;
+      });
+  },
+  unregisterForEvent(eventId) {
+    const token = localStorage.getItem("jwtToken");
+
+    return fetch(`${SERVER_PREFIX}/event/removeParticipant?eId=${eventId}`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+      method: "POST",
+    })
+      .then((response) => {
+        if (!response.ok) {
+          return response.text().then((text) => {
+            throw new Error(text);
+          });
+        }
+        return response.text();
+      })
+      .then((message) => {
+        console.log(message);
+        return message;
+      })
+      .catch((error) => {
+        console.error("Request error:", error);
+        throw error;
+      });
+  },
 };
 
 export default Api;

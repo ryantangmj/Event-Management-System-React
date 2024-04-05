@@ -33,6 +33,9 @@ export default function ItemCard({ event, index }) {
         maxWidth: isMobile ? 150 : 300,
         borderRadius: "8px",
         m: 2,
+        ":hover": {
+          boxShadow: 20,
+        },
       }}
     >
       <CardMedia

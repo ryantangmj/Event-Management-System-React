@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Box,
   Typography,
@@ -7,9 +7,20 @@ import {
   Snackbar,
   Alert,
   CssBaseline,
+  Button,
+  Link,
 } from "@mui/material";
 import AspectRatio from "@mui/joy/AspectRatio";
-import { createTheme } from "@mui/material/styles";
+import { createTheme, ThemeProvider } from "@mui/material/styles";
+import Api from "../../helpers/Api";
+import { useNavigate } from "react-router-dom";
+import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
+import EventBusyIcon from "@mui/icons-material/EventBusy";
+import LocationOnIcon from "@mui/icons-material/LocationOn";
+import DescriptionIcon from "@mui/icons-material/Description";
+import HowToRegIcon from "@mui/icons-material/HowToReg";
+import PersonRemoveIcon from "@mui/icons-material/PersonRemove";
+import { set } from "date-fns";
 
 function formatDateStringWithRegex(dateString) {
   const regex = /(\d{4})-(\d{2})-(\d{2})T(\d{2}):(\d{2}):(\d{2})Z\[UTC\]/;
@@ -21,24 +32,74 @@ function formatDateStringWithRegex(dateString) {
     const day = match[3];
     const hour = match[4];
     const minute = match[5];
-    // Assemble the components into the desired format 'dd-mm-yyyy hh:mm'
     return `${day}-${month}-${year} ${hour}:${minute}`;
   }
 
-  return ""; // Return an empty string or some default error message if the regex does not match
+  return "";
 }
 
-export default function EventDetailsMain({ event, organiser }) {
+export default function EventDetailsMain({ id, selectedEvent, organiser }) {
+  const navigate = useNavigate();
+  const [userId, setUserId] = useState("");
+  const [registered, setRegistered] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
   const [open, setOpen] = React.useState();
+  const [openSnackbar, setOpenSnackbar] = React.useState(false);
+  const [snackbarMessage, setSnackbarMessage] = useState("");
+  const [snackbarSeverity, setSnackbarSeverity] = useState("success");
 
-  const handleClose = (event, reason) => {
-    if (reason === "clickaway") {
-      return;
-    }
-
-    setOpen(false);
+  const handleOpenSnackbar = (message, severity) => {
+    setSnackbarMessage(message);
+    setSnackbarSeverity(severity);
+    setOpenSnackbar(true);
   };
+
+  const handleCloseSnackbar = () => {
+    setOpenSnackbar(false);
+  };
+
+  const handleRegisterClick = () => {
+    const eventId = id;
+    Api.registerForEvent(eventId)
+      .then(() => {
+        handleOpenSnackbar("Successfully registered for event", "success");
+        setRegistered(true);
+      })
+      .catch((error) => {
+        handleOpenSnackbar(error.message, "error");
+      });
+  };
+
+  const handleUnregisterClick = () => {
+    const eventId = id;
+    Api.unregisterForEvent(eventId)
+      .then(() => {
+        handleOpenSnackbar("Successfully unregistered for event", "success");
+        setRegistered(false);
+      })
+      .catch((error) => {
+        handleOpenSnackbar(error.message, "error");
+      });
+  };
+
+  useEffect(() => {
+    const fetchUser = async () => {
+      const fetchedUser = await Api.getAccount();
+      setUserId(fetchedUser.id);
+    };
+
+    fetchUser();
+  }, []);
+
+  useEffect(() => {
+    const isRegistered = async () => {
+      console.log("id", id);
+      const registered = await Api.isRegistered(id);
+      setRegistered(registered);
+    };
+
+    isRegistered();
+  }, []);
 
   const theme = createTheme({
     palette: {
@@ -90,7 +151,7 @@ export default function EventDetailsMain({ event, organiser }) {
               height: "100%",
               width: "100%",
             }}
-            src={event.imageURL}
+            src={selectedEvent.imageURL}
             alt="Event image"
           />
         </AspectRatio>
@@ -116,27 +177,27 @@ export default function EventDetailsMain({ event, organiser }) {
           }}
         >
           <Snackbar
-            open={open}
+            open={openSnackbar}
             autoHideDuration={6000}
-            onClose={handleClose}
+            onClose={handleCloseSnackbar}
             anchorOrigin={{ vertical: "top", horizontal: "right" }}
           >
             <Alert
-              onClose={handleClose}
-              severity="error"
+              onClose={handleCloseSnackbar}
+              severity={snackbarSeverity}
               variant="filled"
               sx={{ width: "100%" }}
             >
-              {errorMessage}
+              {snackbarMessage}
             </Alert>
           </Snackbar>
           <Typography
-            variant="h4"
+            variant="h3"
             gutterBottom
             component="div"
-            sx={{ fontWeight: "bold", mb: 3, fontFamily: "nunito, sans-serif" }}
+            sx={{ fontWeight: "bold", mb: 2, fontFamily: "nunito, sans-serif" }}
           >
-            {event.title}
+            {selectedEvent.title}
           </Typography>
 
           <Box sx={{ display: "flex", alignItems: "center", mb: 2 }}>
@@ -157,29 +218,84 @@ export default function EventDetailsMain({ event, organiser }) {
             variant="h6"
             sx={{ mb: 1, fontFamily: "nunito, sans-serif" }}
           >
-            Date: {formatDateStringWithRegex(event.date)}
+            Date: <br />
+            <div>
+              <CalendarMonthIcon sx={{ mb: -0.5, mr: 1 }} />
+              {formatDateStringWithRegex(selectedEvent.date)}
+            </div>
           </Typography>
 
           <Typography
             variant="h6"
             sx={{ mb: 1, fontFamily: "nunito, sans-serif" }}
           >
-            Deadline: {formatDateStringWithRegex(event.deadline)}
+            Deadline: <br />
+            <div>
+              <EventBusyIcon sx={{ mb: -0.5, mr: 1 }} />
+              {formatDateStringWithRegex(selectedEvent.deadline)}
+            </div>
           </Typography>
 
           <Typography
             variant="h6"
             sx={{ mb: 1, fontFamily: "nunito, sans-serif" }}
           >
-            Location: {event.location}
+            Location: <br />
+            <div>
+              <LocationOnIcon sx={{ mb: -0.5, mr: 1 }} />
+              {selectedEvent.location}
+            </div>
           </Typography>
 
           <Typography
             variant="h6"
             sx={{ mb: 1, fontFamily: "nunito, sans-serif" }}
           >
-            Description: {event.description}
+            Description: <br />
+            <div>
+              <DescriptionIcon sx={{ mb: -0.5, mr: 1 }} />
+              {selectedEvent.description}
+            </div>
           </Typography>
+          {userId === organiser.id ? (
+            <ThemeProvider theme={theme}>
+              <div
+                onClick={() => navigate(`/attendance/${selectedEvent.id}/`)}
+                style={{ textDecoration: "none", cursor: "pointer" }}
+              >
+                <Button
+                  variant="contained"
+                  size="large"
+                  color="customColor"
+                  sx={{ mt: 2, borderRadius: 25 }}
+                >
+                  Attendance
+                </Button>
+              </div>
+            </ThemeProvider>
+          ) : registered ? (
+            <Button
+              variant="contained"
+              color="error"
+              sx={{ mt: 2, borderRadius: 25 }}
+              endIcon={<PersonRemoveIcon />}
+              onClick={handleUnregisterClick}
+            >
+              {" "}
+              Unregister
+            </Button>
+          ) : (
+            <Button
+              variant="contained"
+              color="success"
+              sx={{ mt: 2, borderRadius: 25 }}
+              endIcon={<HowToRegIcon />}
+              onClick={handleRegisterClick}
+            >
+              {" "}
+              Register
+            </Button>
+          )}
         </Box>
       </Grid>
     </Grid>

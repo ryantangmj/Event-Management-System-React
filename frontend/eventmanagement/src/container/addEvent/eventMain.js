@@ -94,22 +94,16 @@ export default function AddEventDetails() {
 
     const preparedData = {
       ...formData,
-      date: moment(formData.date).format("YYYY-MM-DDTHH:mm:ss"),
-      deadline: moment(formData.deadline).format("YYYY-MM-DDTHH:mm:ss"),
-    };
-
-    const extendedFormData = {
-      ...preparedData,
       imageURL,
     };
 
     try {
-      await Api.createEvent(extendedFormData);
+      await Api.createEvent(preparedData);
       console.log(preparedData);
       navigate("/hostedEvents");
     } catch (error) {
       setErrorMessage(
-        error.message || "An error occurred while creating the account."
+        error.message || "An error occurred while creating the event."
       );
       setOpen(true);
     }

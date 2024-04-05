@@ -11,6 +11,7 @@ import Landing from "./container/landing/landing";
 import Login from "./container/login/login";
 import Register from "./container/register/register";
 import EventDetail from "./container/eventDetail/EventDetail";
+import Attendance from "./container/attendance/Attendance";
 
 function App() {
   return (
@@ -24,6 +25,7 @@ function App() {
           <Route path="/hostedEvents" element={<HostedEvents />} />
           <Route path="/attendedEvents" element={<RegisteredEvents />} />
           <Route path="/event/:id" element={<EventDetail />} />
+          <Route path="/attendance/:id" element={<Attendance />} />
           <Route path="/profile" element={<Profile />} />
           <Route path="/addEvent" element={<AddEvent />} />
           <Route path="/login" element={<Login />} />

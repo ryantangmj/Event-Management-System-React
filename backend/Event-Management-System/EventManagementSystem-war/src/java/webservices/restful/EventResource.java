@@ -12,9 +12,11 @@ import entity.Account;
 import entity.Event;
 import java.security.Principal;
 import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 import javax.ejb.EJB;
+import javax.faces.application.FacesMessage;
 import javax.json.Json;
 import javax.json.JsonObject;
 import javax.persistence.NoResultException;
@@ -52,8 +54,6 @@ public class EventResource {
     @Secured
     @Produces(MediaType.APPLICATION_JSON)
     public Response getAllEvent(@Context SecurityContext securityContext) {
-        Principal principal = securityContext.getUserPrincipal();
-        String userId = principal.getName();
         List<Event> allEvents = eventSessionLocal.getAllEvents();
 
         try {
@@ -111,37 +111,89 @@ public class EventResource {
     }
 
     @GET
+    @Secured
     @Path("/participants/{event_id}")
     @Produces(MediaType.APPLICATION_JSON)
-    public List<Account> getParticipants(@PathParam("event_id") Long eId) {
-        return eventSessionLocal.retrieveParticipants(eId);
+    public Response getParticipants(@PathParam("event_id") Long eId) {
+        Event e = eventSessionLocal.getEvent(eId);
+
+        for (Account a : e.getParticipants()) {
+            a.setAttendedEvents(null);
+            a.setJoinedEvents(null);
+            a.setOrganisedEvents(null);
+        }
+
+        return Response.ok(e.getParticipants()).build();
     }
 
     @GET
+    @Secured
+    @Path("/isRegistered/{event_id}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response isRegistered(@Context SecurityContext securityContext, @PathParam("event_id") Long eId) {
+        Principal principal = securityContext.getUserPrincipal();
+        String userId = principal.getName();
+
+        Account a = accountSessionLocal.getAccount(Long.parseLong(userId));
+        Event e = eventSessionLocal.getEvent(eId);
+
+        Boolean registered = e.getParticipants().contains(a);
+
+        return Response.ok(registered).build();
+    }
+
+    @GET
+    @Secured
     @Path("/attendees/{event_id}")
     @Produces(MediaType.APPLICATION_JSON)
-    public List<Account> getAttendees(@PathParam("event_id") Long eId) {
-        return eventSessionLocal.retrieveAttendees(eId);
+    public Response getAttendees(@PathParam("event_id") Long eId) {
+        Event e = eventSessionLocal.getEvent(eId);
+
+        for (Account a : e.getAttendees()) {
+            a.setAttendedEvents(null);
+            a.setJoinedEvents(null);
+            a.setOrganisedEvents(null);
+        }
+
+        return Response.ok(e.getAttendees()).build();
     }
 
-    @PUT
-    @Path("addParticipant")
+    @POST
+    @Secured
+    @Path("/addParticipant")
     @Produces(MediaType.APPLICATION_JSON)
-    public void addParticipant(@QueryParam("aId") Long aId, @QueryParam("eId") Long eId) {
+    public Response addParticipant(@Context SecurityContext securityContext, @QueryParam("eId") Long eId) {
+        Principal principal = securityContext.getUserPrincipal();
+        String userId = principal.getName();
+
+        Account a = accountSessionLocal.getAccount(Long.parseLong(userId));
         Event e = eventSessionLocal.getEvent(eId);
-        Account a = accountSessionLocal.getAccount(aId);
+
+        if (e.getDeadline().before(new Date())) {
+            return Response.status(Response.Status.BAD_REQUEST)
+                    .entity("It is already passed the event deadline!")
+                    .build();
+        }
 
         eventSessionLocal.addParticipant(a, e);
+        accountSessionLocal.joinNewEvent(a, e);
+        return Response.ok().build();
     }
 
-    @PUT
+    @POST
+    @Secured
     @Path("/removeParticipant")
     @Produces(MediaType.APPLICATION_JSON)
-    public void removeParticipant(@QueryParam("aId") Long aId, @QueryParam("eId") Long eId) {
+    public Response removeParticipant(@Context SecurityContext securityContext, @QueryParam("eId") Long eId) {
+        Principal principal = securityContext.getUserPrincipal();
+        String userId = principal.getName();
+
+        Account a = accountSessionLocal.getAccount(Long.parseLong(userId));
         Event e = eventSessionLocal.getEvent(eId);
-        Account a = accountSessionLocal.getAccount(aId);
 
         eventSessionLocal.removeParticipant(a, e);
+        accountSessionLocal.removeEvent(a, e);
+        return Response.ok().build();
     }
 
     @POST
