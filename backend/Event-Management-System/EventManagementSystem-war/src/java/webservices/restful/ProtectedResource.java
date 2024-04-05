@@ -153,6 +153,7 @@ public class ProtectedResource {
         currentAccount.setContactDetails(a.getContactDetails());
         currentAccount.setEmail(a.getEmail());
         currentAccount.setPassword(a.getPassword());
+        currentAccount.setImageURL(a.getImageURL());
         accountSessionLocal.updateAccount(currentAccount);
         return a;
     }

@@ -54,7 +54,7 @@ public class AccountSession implements AccountSessionLocal {
         oldU.setContactDetails(u.getContactDetails());
         oldU.setEmail(u.getEmail());
         oldU.setPassword(u.getPassword());
-        oldU.setProfilePicContent(u.getProfilePicContent());
+        oldU.setImageURL(u.getImageURL());
 
         em.merge(oldU);
     }

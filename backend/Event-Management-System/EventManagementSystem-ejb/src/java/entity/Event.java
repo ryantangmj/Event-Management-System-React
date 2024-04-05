@@ -33,6 +33,7 @@ public class Event implements Serializable {
     private Date date;
     private String location;
     private String description;
+    private String imageURL;
     @Temporal(TemporalType.TIMESTAMP)
     private Date deadline;
     @ManyToOne
@@ -41,6 +42,14 @@ public class Event implements Serializable {
     private List<Account> participants = new ArrayList<Account>();
     @ManyToMany
     private List<Account> attendees = new ArrayList<Account>();
+    
+    public String getImageURL() {
+        return imageURL;
+    }
+
+    public void setImageURL(String imageURL) {
+        this.imageURL = imageURL;
+    }
 
     public Account getOrganiser() {
         return organiser;

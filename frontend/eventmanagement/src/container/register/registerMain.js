@@ -22,6 +22,8 @@ import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import Api from "../../helpers/Api";
+import swal from "sweetalert";
+import CloudinaryUploadWidget from "../../helpers/CloudinaryUploadWidget";
 
 export default function RegisterMain() {
   const navigate = useNavigate();
@@ -32,6 +34,7 @@ export default function RegisterMain() {
   const [errorMessage, setErrorMessage] = useState("");
   const [open, setOpen] = React.useState();
   const [confirmPassword, setConfirmPassword] = React.useState("");
+  const [imageURL, setImageURL] = useState("empty");
 
   const handleMouseDownPassword = (event) => {
     event.preventDefault();
@@ -99,8 +102,19 @@ export default function RegisterMain() {
       return;
     }
 
+    if (!imageURL || imageURL === "empty") {
+      setErrorMessage("Please upload an image");
+      setOpen(true);
+      return;
+    }
+
+    const extendedFormData = {
+      ...formData,
+      imageURL,
+    };
+
     try {
-      await Api.createAccount(formData);
+      await Api.createAccount(extendedFormData);
       navigate("/login");
     } catch (error) {
       setErrorMessage(
@@ -109,6 +123,25 @@ export default function RegisterMain() {
       setOpen(true);
     }
   };
+
+  function handleOnUpload(error, result, widget) {
+    if (error) {
+      console.log(error);
+      // widget.close({
+      //   quiet: true,
+      // });
+      return;
+    }
+    swal("Success", "Media uploaded", "success");
+    console.log(result.info.secure_url);
+    const secureUrl = result?.info?.secure_url;
+
+    if (secureUrl) {
+      console.log("setURL");
+      setImageURL(secureUrl);
+      console.log(imageURL);
+    }
+  }
 
   return (
     <Grid
@@ -267,6 +300,67 @@ export default function RegisterMain() {
                 label="Password"
               />
             </FormControl>
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+                marginTop: 16,
+              }}
+            >
+              {imageURL === "empty" ? (
+                <CloudinaryUploadWidget onUpload={handleOnUpload}>
+                  {({ open }) => {
+                    function handleOnClick(e) {
+                      e.preventDefault();
+                      open();
+                    }
+                    return (
+                      <Button
+                        variant="contained"
+                        fullWidth
+                        onClick={handleOnClick}
+                        sx={{
+                          height: "150px",
+                          fontFamily: "nunito, sans-serif",
+                          backgroundColor: "#FFFFFF",
+                          color: "#181B13",
+                          border: "1px dashed #181B13",
+                          borderRadius: "10px",
+                          "&:hover": { backgroundColor: "#DFDFDF" },
+                          px: "16px",
+                          py: "8px",
+                          fontSize: "18px",
+                          cursor: "pointer",
+                          textTransform: "initial",
+                        }}
+                      >
+                        Upload Your Profile Photo
+                      </Button>
+                    );
+                  }}
+                </CloudinaryUploadWidget>
+              ) : (
+                <Box
+                  id="image"
+                  component="img"
+                  fullWidth
+                  sx={{
+                    height: "150px",
+                    width: "100%",
+                    border: "1px dashed #181B13",
+                    borderRadius: "10px",
+                    alignSelf: "flex-start",
+                    "&:hover": { backgroundColor: "#FFFFFF" },
+                    justifyContent: "flex-start",
+                    alignItems: "flex-start",
+                    objectFit: "contain",
+                  }}
+                  src={imageURL}
+                  alt="Uploaded Profile Picture"
+                />
+              )}
+            </div>
             <Link sx={{ width: "200%" }} to="/login">
               Already have an Account? Log in
               <br />

@@ -31,7 +31,7 @@ public class Account implements Serializable {
     private String email;
     private String password;
     private String token;
-    private byte[] profilePicContent;
+    private String imageURL;
     @OneToMany (mappedBy="organiser")
     private List<Event> organisedEvents = new ArrayList<Event>();
     @ManyToMany
@@ -39,20 +39,20 @@ public class Account implements Serializable {
     @ManyToMany(mappedBy="attendees")
     private List<Event> attendedEvents = new ArrayList<Event>();
 
+    public String getImageURL() {
+        return imageURL;
+    }
+
+    public void setImageURL(String imageURL) {
+        this.imageURL = imageURL;
+    }
+
     public String getToken() {
         return token;
     }
 
     public void setToken(String token) {
         this.token = token;
-    }
-
-    public byte[] getProfilePicContent() {
-        return profilePicContent;
-    }
-
-    public void setProfilePicContent(byte[] profilePicContent) {
-        this.profilePicContent = profilePicContent;
     }
 
     public String getPassword() {

@@ -45,20 +45,12 @@ public class AccountManagedBean implements Serializable {
     private String validatePassword;
     private Part uploadedfile;
     private String filename = "";
-    private byte[] fileContent;
+    private String fileContent;
     private String error;
     private List<Event> organisedEvents;
     private List<Event> joinedEvents;
 
     public AccountManagedBean() {
-    }
-
-    public byte[] getFileContent() {
-        return fileContent;
-    }
-
-    public void setFileContent(byte[] fileContent) {
-        this.fileContent = fileContent;
     }
 
     public Part getUploadedfile() {
@@ -166,7 +158,7 @@ public class AccountManagedBean implements Serializable {
             email = this.account.getEmail();
             password = this.account.getPassword();
             validatePassword = password;
-            fileContent = this.account.getProfilePicContent();
+            fileContent = this.account.getImageURL();
         } catch (Exception e) {
             context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "Unable to load account"));
         }
@@ -178,7 +170,7 @@ public class AccountManagedBean implements Serializable {
         account.setContactDetails(contactDetails);
         account.setEmail(email);
         account.setPassword(password);
-        account.setProfilePicContent(fileContent);
+        account.setImageURL(fileContent);
 
         try {
             accountSession.updateAccount(account);
@@ -222,7 +214,7 @@ public class AccountManagedBean implements Serializable {
 
         String fileName = Paths.get(uploadedfile.getSubmittedFileName()).getFileName().toString();
         String contentType = uploadedfile.getContentType();
-        fileContent = toByteArray(uploadedfile.getInputStream());
+//        fileContent = toByteArray(uploadedfile.getInputStream());
     }
 
     public String createAccount() {
@@ -237,7 +229,7 @@ public class AccountManagedBean implements Serializable {
         account.setContactDetails(contactDetails);
         account.setEmail(email);
         account.setPassword(password);
-        account.setProfilePicContent(fileContent);
+//        account.setProfilePicContent(fileContent);
 
         accountSession.createAccount(account);
         return "index.xhtml?faces-redirect=true";

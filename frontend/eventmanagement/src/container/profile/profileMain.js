@@ -22,6 +22,10 @@ import { useNavigate } from "react-router-dom";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import Api from "../../helpers/Api";
 import cleanup from "../../assets/cleanup.jpeg";
+import swal from "sweetalert";
+import EditIcon from "@mui/icons-material/Edit";
+import CloudinaryUploadWidget from "../../helpers/CloudinaryUploadWidget";
+import { set } from "date-fns";
 
 export default function EditProfile() {
   const navigate = useNavigate();
@@ -32,6 +36,7 @@ export default function EditProfile() {
   const [errorMessage, setErrorMessage] = useState("");
   const [open, setOpen] = React.useState();
   const [confirmPassword, setConfirmPassword] = React.useState("");
+  const [imageURL, setImageURL] = React.useState("");
 
   const handleClose = (event, reason) => {
     if (reason === "clickaway") {
@@ -72,6 +77,24 @@ export default function EditProfile() {
     });
   };
 
+  function handleOnUpload(error, result, widget) {
+    if (error) {
+      console.log(error);
+      // widget.close({
+      //   quiet: true,
+      // });
+      return;
+    }
+    swal("Success", "Media uploaded", "success");
+    console.log(result.info.secure_url);
+    const secureUrl = result?.info?.secure_url;
+
+    if (secureUrl) {
+      console.log("setURL");
+      setImageURL(secureUrl);
+    }
+  }
+
   const isValidEmail = (email) => {
     return /\S+@\S+\.\S+/.test(email);
   };
@@ -86,6 +109,7 @@ export default function EditProfile() {
           email: fetchedUser.email || "",
           password: fetchedUser.password || "",
         });
+        setImageURL(fetchedUser.imageURL || "empty");
         setConfirmPassword(fetchedUser.password || "");
         console.log(formData);
       } catch (error) {
@@ -119,8 +143,13 @@ export default function EditProfile() {
       return;
     }
 
+    const extendedFormData = {
+      ...formData,
+      imageURL,
+    };
+
     try {
-      await Api.updateAccount(formData);
+      await Api.updateAccount(extendedFormData);
       navigate("/home");
     } catch (error) {
       setErrorMessage(
@@ -291,6 +320,93 @@ export default function EditProfile() {
               label="Password"
             />
           </FormControl>
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+            }}
+          >
+            {imageURL === "empty" ? (
+              <CloudinaryUploadWidget onUpload={handleOnUpload}>
+                {({ open }) => {
+                  function handleOnClick(e) {
+                    e.preventDefault();
+                    open();
+                  }
+                  return (
+                    <Button
+                      variant="contained"
+                      fullWidth
+                      onClick={handleOnClick}
+                      sx={{
+                        height: "150px",
+                        fontFamily: "nunito, sans-serif",
+                        backgroundColor: "#DFDFDF",
+                        color: "#181B13",
+                        border: "1px dashed #181B13",
+                        borderRadius: "10px",
+                        "&:hover": { backgroundColor: "#FFFFFF" },
+                        px: "16px",
+                        py: "8px",
+                        fontSize: "18px",
+                        cursor: "pointer",
+                        textTransform: "initial",
+                      }}
+                    >
+                      Upload Your Profile Photo
+                    </Button>
+                  );
+                }}
+              </CloudinaryUploadWidget>
+            ) : (
+              <Box
+                sx={{
+                  position: "relative",
+                  "&:hover #editIcon": {
+                    display: "flex",
+                  },
+                }}
+              >
+                <img
+                  src={imageURL}
+                  alt="Uploaded Profile Picture"
+                  style={{
+                    height: "200px",
+                    width: "200px",
+                    borderRadius: "10px",
+                    objectFit: "cover",
+                  }}
+                />
+                <CloudinaryUploadWidget onUpload={handleOnUpload}>
+                  {({ open }) => {
+                    return (
+                      <IconButton
+                        id="editIcon"
+                        onClick={(e) => {
+                          e.preventDefault();
+                          open();
+                        }}
+                        sx={{
+                          position: "absolute",
+                          top: 0,
+                          right: 0,
+                          display: "none",
+                          backgroundColor: "rgba(0, 0, 0, 0.5)",
+                          color: "white",
+                          "&:hover": {
+                            backgroundColor: "rgba(0, 0, 0, 0.7)",
+                          },
+                        }}
+                      >
+                        <EditIcon />
+                      </IconButton>
+                    );
+                  }}
+                </CloudinaryUploadWidget>
+              </Box>
+            )}
+          </div>
           <ThemeProvider theme={theme}>
             <Button
               type="submit"

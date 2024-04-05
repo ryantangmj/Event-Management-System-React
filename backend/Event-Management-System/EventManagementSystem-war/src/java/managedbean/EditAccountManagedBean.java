@@ -148,7 +148,7 @@ public class EditAccountManagedBean implements Serializable {
             email = this.account.getEmail();
             password = this.account.getPassword();
             validatePassword = password;
-            fileContent = this.account.getProfilePicContent();
+//            fileContent = this.account.getProfilePicContent();
         } catch (Exception e) {
             context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "Unable to load account"));
         }
@@ -164,7 +164,7 @@ public class EditAccountManagedBean implements Serializable {
             if (uploadedfile != null) {
                 fileContent = toByteArray(uploadedfile.getInputStream());
             }
-            account.setProfilePicContent(fileContent);
+//            account.setProfilePicContent(fileContent);
             account.setName(name);
             account.setContactDetails(contactDetails);
             account.setEmail(email);
