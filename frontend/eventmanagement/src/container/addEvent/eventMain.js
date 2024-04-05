@@ -19,12 +19,15 @@ import { DateTimePicker } from "@mui/x-date-pickers/DateTimePicker";
 import { useNavigate } from "react-router-dom";
 import Api from "../../helpers/Api";
 import moment from "moment-timezone";
+import swal from "sweetalert";
+import CloudinaryUploadWidget from "../../helpers/CloudinaryUploadWidget";
 
 export default function AddEventDetails() {
   const navigate = useNavigate();
   const maxChars = 255;
   const [errorMessage, setErrorMessage] = useState("");
   const [open, setOpen] = React.useState();
+  const [imageURL, setImageURL] = useState("empty");
 
   const handleClose = (event, reason) => {
     if (reason === "clickaway") {
@@ -33,6 +36,25 @@ export default function AddEventDetails() {
 
     setOpen(false);
   };
+
+  function handleOnUpload(error, result, widget) {
+    if (error) {
+      console.log(error);
+      // widget.close({
+      //   quiet: true,
+      // });
+      return;
+    }
+    swal("Success", "Media uploaded", "success");
+    console.log(result.info.secure_url);
+    const secureUrl = result?.info?.secure_url;
+
+    if (secureUrl) {
+      console.log("setURL");
+      setImageURL(secureUrl);
+      console.log(imageURL);
+    }
+  }
 
   const handleChange = (event) => {
     const target = event.target;
@@ -72,17 +94,19 @@ export default function AddEventDetails() {
     const preparedData = {
       ...formData,
       date: moment(formData.date)
-        .tz("Asia/Singapore")
-        .subtract(8, "hours")
         .format("YYYY-MM-DDTHH:mm:ss"),
       deadline: moment(formData.deadline)
-        .tz("Asia/Singapore")
-        .subtract(8, "hours")
         .format("YYYY-MM-DDTHH:mm:ss"),
     };
 
+    const extendedFormData = {
+      ...preparedData,
+      imageURL,
+    };
+
+    console.log(extendedFormData);
     try {
-      await Api.createEvent(preparedData);
+      await Api.createEvent(extendedFormData);
       console.log(preparedData);
       navigate("/hostedEvents");
     } catch (error) {
@@ -165,7 +189,7 @@ export default function AddEventDetails() {
             alignItems: "center",
             justifyContent: { xs: "flex-start", sm: "center" },
             height: "100vh",
-            width: { xs: "100%", md: "30%" },
+            width: "60%",
           }}
         >
           <form onSubmit={handleSubmit}>
@@ -193,7 +217,7 @@ export default function AddEventDetails() {
               Add Event
             </Typography>
             <TextField
-              sx={{ my: 1, width: "140%" }}
+              sx={{ my: 1, width: "100%" }}
               label="Title"
               name="title"
               onChange={handleChange}
@@ -212,10 +236,10 @@ export default function AddEventDetails() {
                 maxChars - formData.description.length
               } characters remaining`}
               variant="outlined"
-              sx={{ my: 1, width: "140%" }}
+              sx={{ my: 1, width: "100%" }}
             />
             <TextField
-              sx={{ my: 1, width: "140%" }}
+              sx={{ my: 1, width: "100%" }}
               label="Location"
               name="location"
               onChange={handleChange}
@@ -231,7 +255,7 @@ export default function AddEventDetails() {
                   });
                 }}
                 minDate={dayjs()}
-                sx={{ my: 1, width: "140%" }}
+                sx={{ my: 1, width: "100%" }}
               />
             </LocalizationProvider>
             <LocalizationProvider dateAdapter={AdapterDayjs}>
@@ -242,9 +266,71 @@ export default function AddEventDetails() {
                 }}
                 minDate={formData.deadline !== "" ? formData.deadline : dayjs()}
                 label="Date"
-                sx={{ my: 1, width: "140%" }}
+                sx={{ my: 1, width: "100%" }}
               />
             </LocalizationProvider>
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+                marginTop: 16,
+              }}
+            >
+              {imageURL === "empty" ? (
+                <CloudinaryUploadWidget onUpload={handleOnUpload}>
+                  {({ open }) => {
+                    function handleOnClick(e) {
+                      e.preventDefault();
+                      open();
+                    }
+                    return (
+                      <Button
+                        variant="contained"
+                        onClick={handleOnClick}
+                        sx={{
+                          height: "150px",
+                          fontFamily: "nunito, sans-serif",
+                          backgroundColor: "#FFFFFF",
+                          color: "#181B13",
+                          border: "1px dashed #181B13",
+                          borderRadius: "10px",
+                          "&:hover": { backgroundColor: "#DFDFDF" },
+                          px: "16px",
+                          py: "8px",
+                          fontSize: "18px",
+                          cursor: "pointer",
+                          textTransform: "initial",
+                          maxWidth: "400px",
+                          width: "100%",
+                        }}
+                      >
+                        Upload a photo of your event
+                      </Button>
+                    );
+                  }}
+                </CloudinaryUploadWidget>
+              ) : (
+                <Box
+                  id="image"
+                  component="img"
+                  fullWidth
+                  sx={{
+                    height: "150px",
+                    width: "100%",
+                    border: "1px dashed #181B13",
+                    borderRadius: "10px",
+                    alignSelf: "flex-start",
+                    "&:hover": { backgroundColor: "#FFFFFF" },
+                    justifyContent: "flex-start",
+                    alignItems: "flex-start",
+                    objectFit: "contain",
+                  }}
+                  src={imageURL}
+                  alt="Uploaded Profile Picture"
+                />
+              )}
+            </div>
             <ThemeProvider theme={theme}>
               <Button
                 type="submit"
