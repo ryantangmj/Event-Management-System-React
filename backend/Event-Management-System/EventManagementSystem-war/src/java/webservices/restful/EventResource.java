@@ -49,9 +49,40 @@ public class EventResource {
     private AccountSessionLocal accountSessionLocal;
 
     @GET
+    @Secured
     @Produces(MediaType.APPLICATION_JSON)
-    public List<Event> getAllEvent() {
-        return eventSessionLocal.getAllEvents();
+    public Response getAllEvent(@Context SecurityContext securityContext) {
+        Principal principal = securityContext.getUserPrincipal();
+        String userId = principal.getName();
+        List<Event> allEvents = eventSessionLocal.getAllEvents();
+
+        try {
+            for (Event e : allEvents) {
+                System.out.println(e);
+                Account org = e.getOrganiser();
+                org.setAttendedEvents(null);
+                org.setJoinedEvents(null);
+                org.setOrganisedEvents(null);
+
+                for (Account a : e.getAttendees()) {
+                    a.setAttendedEvents(null);
+                    a.setJoinedEvents(null);
+                    a.setOrganisedEvents(null);
+                }
+
+                for (Account a : e.getParticipants()) {
+                    a.setAttendedEvents(null);
+                    a.setJoinedEvents(null);
+                    a.setOrganisedEvents(null);
+                }
+            }
+
+            return Response.ok(allEvents).build();
+        } catch (Exception e) {
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
+                    .entity("Error fetching all events")
+                    .build();
+        }
     }
 
     @GET
@@ -103,7 +134,7 @@ public class EventResource {
     public Response createEvent(@Context SecurityContext securityContext, Event e) {
         Principal principal = securityContext.getUserPrincipal();
         String userId = principal.getName();
-        
+
         Account a = accountSessionLocal.getAccount(Long.parseLong(userId));
         e.setOrganiser(a);
         eventSessionLocal.createEvent(a, e);

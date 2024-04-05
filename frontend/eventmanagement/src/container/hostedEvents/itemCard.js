@@ -41,6 +41,7 @@ export default function ItemCard({ event, index }) {
             padding: "10px",
             borderRadius: "8px",
             margin: "10px",
+            minHeight: "200px",
           }}
         >
           <Typography

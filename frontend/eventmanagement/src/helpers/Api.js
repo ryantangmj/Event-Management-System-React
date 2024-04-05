@@ -112,6 +112,28 @@ const Api = {
         throw error;
       });
   },
+  getAllEvents() {
+    const token = localStorage.getItem("jwtToken");
+
+    return fetch(`${SERVER_PREFIX}/event`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+      method: "GET",
+    })
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("Failed to fetch organized events");
+        }
+        return response.json();
+      })
+      .catch((error) => {
+        console.error("Request error:", error);
+        throw error;
+      });
+  },
   getAccount() {
     const token = localStorage.getItem("jwtToken");
 

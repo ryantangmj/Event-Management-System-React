@@ -15,6 +15,7 @@ function App() {
   return (
     <>
       <Box>
+        <title> Event Genesis</title>
         <CssBaseline />
         <Routes>
           <Route path="" element={<Landing />} />

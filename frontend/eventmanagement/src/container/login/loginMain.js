@@ -178,13 +178,13 @@ export default function LoginMain() {
               Login
             </Typography>
             <TextField
-              sx={{ my: 1, width: "140%" }}
+              sx={{ my: 1, width: "140%", mb: 1 }}
               label="Email"
               name="email"
               onChange={handleChange}
               variant="outlined"
             />
-            <FormControl sx={{ width: "140%" }} variant="outlined">
+            <FormControl sx={{ width: "140%", mb: 1 }} variant="outlined">
               <InputLabel htmlFor="outlined-adornment-password">
                 Password
               </InputLabel>

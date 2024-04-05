@@ -54,7 +54,7 @@ export default function AttendedEvents() {
         })}
       >
         {events.length === 0 ? (
-          <Grid container spacing={1} sx={{ height: "100vh" }}>
+          <Grid container spacing={1} sx={{ height: "100vh", pt: 12 }}>
             <Grid
               item
               xs={12}
