@@ -84,7 +84,8 @@ export default function AddEventDetails() {
       !formData.deadline ||
       !formData.description ||
       !formData.location ||
-      !formData.title
+      !formData.title ||
+      imageURL === "empty"
     ) {
       setErrorMessage("All fields are required");
       setOpen(true);
@@ -93,10 +94,8 @@ export default function AddEventDetails() {
 
     const preparedData = {
       ...formData,
-      date: moment(formData.date)
-        .format("YYYY-MM-DDTHH:mm:ss"),
-      deadline: moment(formData.deadline)
-        .format("YYYY-MM-DDTHH:mm:ss"),
+      date: moment(formData.date).format("YYYY-MM-DDTHH:mm:ss"),
+      deadline: moment(formData.deadline).format("YYYY-MM-DDTHH:mm:ss"),
     };
 
     const extendedFormData = {
@@ -104,7 +103,6 @@ export default function AddEventDetails() {
       imageURL,
     };
 
-    console.log(extendedFormData);
     try {
       await Api.createEvent(extendedFormData);
       console.log(preparedData);

@@ -6,7 +6,7 @@ import LoginMain from "./loginMain.js";
 import { CssBaseline } from "@mui/material";
 import Footer from "../../components/Footer/foooter.jsx";
 
-export default function Register() {
+export default function Login() {
   return (
     <Box>
       <CssBaseline />

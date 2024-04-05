@@ -15,6 +15,7 @@ import AspectRatio from "@mui/joy/AspectRatio";
 import image from "../../assets/eventsCollage.jpeg";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
+import { Link } from "react-router-dom";
 
 export default function AttendedEvents() {
   const [events, setEvents] = useState([]);
@@ -51,6 +52,7 @@ export default function AttendedEvents() {
           width: "100%",
           bgcolor: "#FBF3D5",
           minHeight: "70vh",
+          pb: "2rem",
         })}
       >
         {events.length === 0 ? (
@@ -147,9 +149,14 @@ export default function AttendedEvents() {
               spacing={4}
               sx={{ justifyContent: "center", alignItems: "center" }}
             >
-              {events.map((event, index) => (
-                <Grid item key={index}>
-                  <ItemCard event={event} />
+              {events.map((event) => (
+                <Grid item key={event.id}>
+                  <Link
+                    to={`/event/${event.id}`}
+                    style={{ textDecoration: "none" }}
+                  >
+                    <ItemCard event={event} />
+                  </Link>
                 </Grid>
               ))}
             </Grid>

@@ -179,6 +179,28 @@ const Api = {
         throw error;
       });
   },
+  fetchEventById(id) {
+    const token = localStorage.getItem("jwtToken");
+
+    return fetch(`${SERVER_PREFIX}/event/${id}`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+      method: "GET",
+    })
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("Failed to fetch event");
+        }
+        return response.json();
+      })
+      .catch((error) => {
+        console.error("Request error:", error);
+        throw error;
+      });
+  },
 };
 
 export default Api;

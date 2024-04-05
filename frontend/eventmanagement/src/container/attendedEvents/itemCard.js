@@ -1,5 +1,6 @@
 import React from "react";
 import Card from "@mui/material/Card";
+import CardMedia from "@mui/material/CardMedia";
 import CardContent from "@mui/material/CardContent";
 import Typography from "@mui/material/Typography";
 import { useTheme } from "@mui/material/styles";
@@ -34,20 +35,29 @@ export default function ItemCard({ event }) {
         m: 2,
       }}
     >
+      <CardMedia
+        sx={{
+          height: isMobile ? 125 : 225,
+          width: isMobile ? 175 : 300,
+        }}
+        image={event.imageURL}
+        alt="Product Image"
+        title="Listing Photo"
+      />
       <CardContent>
         <div
           style={{
             padding: "10px",
             borderRadius: "8px",
             margin: "10px",
-            minHeight: "200px",
+            minHeight: "150px",
           }}
         >
           <Typography
             component="div"
             fontFamily="'Helvetica Neue', Helvetica, Arial, sans-serif"
             sx={{
-              fontSize: isMobile ? "1rem" : "1.7rem",
+              fontSize: isMobile ? "1rem" : "1.5rem",
               fontWeight: "bold",
               maxWidth: isMobile ? "200px" : "275px",
               display: "block",
@@ -62,7 +72,7 @@ export default function ItemCard({ event }) {
           <Typography
             sx={{
               mb: "12px",
-              fontSize: isMobile ? "0.85rem" : "1.25rem",
+              fontSize: isMobile ? "0.85rem" : "1.2rem",
               color: "#666",
             }}
             fontFamily="'Helvetica Neue', Helvetica, Arial, sans-serif"

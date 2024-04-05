@@ -6,6 +6,7 @@ import ItemCard from "./itemCard.js";
 import Navbar from "../../components/Navbar/navbar.jsx";
 import Footer from "../../components/Footer/foooter.jsx";
 import Api from "../../helpers/Api";
+import { Link } from "react-router-dom";
 
 export default function Home() {
   const [events, setEvents] = useState([]);
@@ -33,6 +34,7 @@ export default function Home() {
           width: "100%",
           bgcolor: "#FBF3D5",
           minHeight: "70vh",
+          pb: "2rem",
         })}
       >
         <Container
@@ -58,7 +60,7 @@ export default function Home() {
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               style={{
-                width: "87%",
+                width: "89%",
                 padding: "10px",
                 fontSize: "16px",
                 borderRadius: "8px",
@@ -82,9 +84,14 @@ export default function Home() {
                     .toLowerCase()
                     .includes(searchQuery.toLowerCase())
               )
-              .map((event, index) => (
-                <Grid item key={index}>
-                  <ItemCard event={event} />
+              .map((event) => (
+                <Grid item key={event.id}>
+                  <Link
+                    to={`/event/${event.id}`}
+                    style={{ textDecoration: "none" }}
+                  >
+                    <ItemCard event={event} />
+                  </Link>
                 </Grid>
               ))}
           </Grid>

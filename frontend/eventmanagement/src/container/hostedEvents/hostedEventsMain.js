@@ -15,6 +15,7 @@ import AspectRatio from "@mui/joy/AspectRatio";
 import image from "../../assets/eventsCollage.jpeg";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
+import { Link } from "react-router-dom";
 
 export default function RegisteredEvents() {
   const [events, setEvents] = useState([]);
@@ -51,6 +52,7 @@ export default function RegisteredEvents() {
           width: "100%",
           bgcolor: "#FBF3D5",
           minHeight: "70vh",
+          pb: "2rem",
         })}
       >
         {events.length === 0 ? (
@@ -178,9 +180,14 @@ export default function RegisteredEvents() {
                 spacing={4}
                 sx={{ justifyContent: "center", alignItems: "center" }}
               >
-                {events.map((event, index) => (
-                  <Grid item key={index}>
-                    <ItemCard event={event} />
+                {events.map((event) => (
+                  <Grid item key={event.id}>
+                    <Link
+                      to={`/event/${event.id}`}
+                      style={{ textDecoration: "none" }}
+                    >
+                      <ItemCard event={event} />
+                    </Link>
                   </Grid>
                 ))}
               </Grid>

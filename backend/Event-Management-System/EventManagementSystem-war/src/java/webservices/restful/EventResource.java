@@ -85,6 +85,32 @@ public class EventResource {
     }
 
     @GET
+    @Secured
+    @Path("/{id}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response getEvent(@Context SecurityContext securityContext, @PathParam("id") Long eId) {
+        Event e = eventSessionLocal.getEvent(eId);
+        Account org = e.getOrganiser();
+        org.setAttendedEvents(null);
+        org.setJoinedEvents(null);
+        org.setOrganisedEvents(null);
+
+        for (Account a : e.getAttendees()) {
+            a.setAttendedEvents(null);
+            a.setJoinedEvents(null);
+            a.setOrganisedEvents(null);
+        }
+
+        for (Account a : e.getParticipants()) {
+            a.setAttendedEvents(null);
+            a.setJoinedEvents(null);
+            a.setOrganisedEvents(null);
+        }
+
+        return Response.ok(e).build();
+    }
+
+    @GET
     @Path("/participants/{event_id}")
     @Produces(MediaType.APPLICATION_JSON)
     public List<Account> getParticipants(@PathParam("event_id") Long eId) {
@@ -96,13 +122,6 @@ public class EventResource {
     @Produces(MediaType.APPLICATION_JSON)
     public List<Account> getAttendees(@PathParam("event_id") Long eId) {
         return eventSessionLocal.retrieveAttendees(eId);
-    }
-
-    @GET
-    @Path("/{event_id}")
-    @Produces(MediaType.APPLICATION_JSON)
-    public Event getEvent(@PathParam("event_id") Long eId) {
-        return eventSessionLocal.getEvent(eId);
     }
 
     @PUT

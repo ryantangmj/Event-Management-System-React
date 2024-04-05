@@ -10,6 +10,7 @@ import AddEvent from "./container/addEvent/addEvent";
 import Landing from "./container/landing/landing";
 import Login from "./container/login/login";
 import Register from "./container/register/register";
+import EventDetail from "./container/eventDetail/EventDetail";
 
 function App() {
   return (
@@ -22,6 +23,7 @@ function App() {
           <Route path="/home" element={<Home />} />
           <Route path="/hostedEvents" element={<HostedEvents />} />
           <Route path="/attendedEvents" element={<RegisteredEvents />} />
+          <Route path="/event/:id" element={<EventDetail />} />
           <Route path="/profile" element={<Profile />} />
           <Route path="/addEvent" element={<AddEvent />} />
           <Route path="/login" element={<Login />} />
