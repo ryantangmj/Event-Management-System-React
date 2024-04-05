@@ -58,7 +58,6 @@ public class EventResource {
 
         try {
             for (Event e : allEvents) {
-                System.out.println(e);
                 Account org = e.getOrganiser();
                 org.setAttendedEvents(null);
                 org.setJoinedEvents(null);

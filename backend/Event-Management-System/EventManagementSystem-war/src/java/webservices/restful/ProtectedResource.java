@@ -50,10 +50,24 @@ public class ProtectedResource {
             String userId = principal.getName();
 
             List<Event> orgEvents = accountSessionLocal.getOrganisedEvents(Long.parseLong(userId));
-            for (Event e : orgEvents) {
-                e.setAttendees(null);
-                e.setParticipants(null);
-                e.setOrganiser(null);
+            
+             for (Event e : orgEvents) {
+                Account org = e.getOrganiser();
+                org.setAttendedEvents(null);
+                org.setJoinedEvents(null);
+                org.setOrganisedEvents(null);
+
+                for (Account a : e.getAttendees()) {
+                    a.setAttendedEvents(null);
+                    a.setJoinedEvents(null);
+                    a.setOrganisedEvents(null);
+                }
+
+                for (Account a : e.getParticipants()) {
+                    a.setAttendedEvents(null);
+                    a.setJoinedEvents(null);
+                    a.setOrganisedEvents(null);
+                }
             }
 
             return Response.ok(orgEvents).build();
@@ -74,10 +88,24 @@ public class ProtectedResource {
             String userId = principal.getName();
 
             List<Event> regEvents = accountSessionLocal.getRegisteredEvents(Long.parseLong(userId));
+
             for (Event e : regEvents) {
-                e.setAttendees(null);
-                e.setParticipants(null);
-                e.setOrganiser(null);
+                Account org = e.getOrganiser();
+                org.setAttendedEvents(null);
+                org.setJoinedEvents(null);
+                org.setOrganisedEvents(null);
+
+                for (Account a : e.getAttendees()) {
+                    a.setAttendedEvents(null);
+                    a.setJoinedEvents(null);
+                    a.setOrganisedEvents(null);
+                }
+
+                for (Account a : e.getParticipants()) {
+                    a.setAttendedEvents(null);
+                    a.setJoinedEvents(null);
+                    a.setOrganisedEvents(null);
+                }
             }
 
             return Response.ok(regEvents).build();
