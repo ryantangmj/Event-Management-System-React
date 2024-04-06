@@ -12,11 +12,11 @@ import entity.Account;
 import entity.Event;
 import java.security.Principal;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 import javax.ejb.EJB;
-import javax.faces.application.FacesMessage;
 import javax.json.Json;
 import javax.json.JsonObject;
 import javax.persistence.NoResultException;
@@ -25,8 +25,8 @@ import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
-import javax.ws.rs.Path;
 import javax.ws.rs.PUT;
+import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Context;
@@ -221,11 +221,24 @@ public class EventResource {
     @Path("/updateAttendees/{event_id}")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public Event updateAttendees(@PathParam("event_id") Long eId, List<Account> accounts) {
+    public Response updateAttendees(@PathParam("event_id") Long eId, List<Account> attendees) {
         Event e = eventSessionLocal.getEvent(eId);
-        eventSessionLocal.updateAttendees(accounts, e);
-        return e;
+//        List<Account> attendees = new ArrayList<Account>();
+        
+//        for (Long id: attendeesId) {
+//            attendees.add(accountSessionLocal.getAccount(id));
+//        }
+
+        accountSessionLocal.updateAttendees(attendees, e);
+        eventSessionLocal.updateAttendees(attendees, e);
+        
+        JsonObject successMessage = Json.createObjectBuilder()
+                .add("message", "Event's attendance succesfully marked")
+                .build();
+        return Response.status(200).entity(successMessage)
+                .type(MediaType.APPLICATION_JSON).build();
     }
+    
 
     @DELETE
     @Secured
@@ -238,7 +251,7 @@ public class EventResource {
 
             Account a = accountSessionLocal.getAccount(Long.parseLong(userId));
             Event e = eventSessionLocal.getEvent(eId);
-            
+
             accountSessionLocal.removeOrgEvent(a, e);
             eventSessionLocal.removeOrgEvent(e);
             return Response.status(204).build();

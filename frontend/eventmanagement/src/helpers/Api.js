@@ -351,6 +351,29 @@ const Api = {
         throw error;
       });
   },
+  updateAttendees(eventId, attendeesData) {
+    const token = localStorage.getItem("jwtToken");
+
+    return fetch(`${SERVER_PREFIX}/event/updateAttendees/${eventId}`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+      method: "PUT",
+      body: JSON.stringify(attendeesData),
+    })
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("Failed to update attendees");
+        }
+        return response.json();
+      })
+      .catch((error) => {
+        console.error("Request error:", error);
+        throw error;
+      });
+  },
 };
 
 export default Api;

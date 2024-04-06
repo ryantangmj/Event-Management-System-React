@@ -62,9 +62,9 @@ export default function EventDetailsMain({ id, selectedEvent, organiser }) {
     setOpenSnackbar(false);
   };
 
-  const handleRegisterClick = () => {
+  const handleRegisterClick = async () => {
     const eventId = id;
-    Api.registerForEvent(eventId)
+    await Api.registerForEvent(eventId)
       .then(() => {
         handleOpenSnackbar("Successfully registered for event", "success");
         setRegistered(true);
@@ -74,9 +74,9 @@ export default function EventDetailsMain({ id, selectedEvent, organiser }) {
       });
   };
 
-  const handleUnregisterClick = () => {
+  const handleUnregisterClick = async () => {
     const eventId = id;
-    Api.unregisterForEvent(eventId)
+    await Api.unregisterForEvent(eventId)
       .then(() => {
         handleOpenSnackbar("Successfully unregistered for event", "success");
         setRegistered(false);
