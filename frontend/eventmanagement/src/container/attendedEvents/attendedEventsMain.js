@@ -86,10 +86,10 @@ export default function AttendedEvents() {
                   size="large"
                   href="/home"
                   color="customColor"
+                  endIcon={<ArrowForwardIcon />}
                   sx={{ borderRadius: 2, ml: 18 }}
                 >
                   Register now
-                  <ArrowForwardIcon sx={{ ml: 0.5, mt: -0.3 }} />
                 </Button>
               </ThemeProvider>
             </Grid>

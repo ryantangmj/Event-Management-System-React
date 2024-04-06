@@ -86,10 +86,10 @@ export default function RegisteredEvents() {
                   size="large"
                   href="/addEvent"
                   color="customColor"
+                  endIcon={<AddCircleOutlineIcon />}
                   sx={{ borderRadius: 2, ml: 18 }}
                 >
                   Host now
-                  <AddCircleOutlineIcon sx={{ ml: 0.5, mt: -0.3 }} />
                 </Button>
               </ThemeProvider>
             </Grid>
@@ -163,10 +163,10 @@ export default function RegisteredEvents() {
                   size="large"
                   href="/addEvent"
                   color="customColor"
+                  endIcon={<AddCircleOutlineIcon />}
                   sx={{ borderRadius: 2, mr: "-12%" }}
                 >
                   Add Event
-                  <AddCircleOutlineIcon sx={{ ml: 0.5, mt: -0.3 }} />
                 </Button>
               </ThemeProvider>
             </Box>

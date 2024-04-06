@@ -323,7 +323,7 @@ export default function RegisterMain() {
                         sx={{
                           height: "150px",
                           fontFamily: "nunito, sans-serif",
-                          backgroundColor: "#FFFFFF",
+                          backgroundColor: "transparent",
                           color: "#181B13",
                           border: "1px dashed #181B13",
                           borderRadius: "10px",
@@ -361,21 +361,22 @@ export default function RegisterMain() {
                 />
               )}
             </div>
-            <Link sx={{ width: "200%" }} to="/login">
-              Already have an Account? Log in
-              <br />
-            </Link>
+
             <ThemeProvider theme={theme}>
               <Button
                 type="submit"
                 variant="contained"
                 size="large"
                 color="customColor"
-                sx={{ mt: 2, borderRadius: 25 }}
+                sx={{ mt: 2, mb: 2, borderRadius: 25 }}
               >
                 Register Now!
               </Button>
             </ThemeProvider>
+            <Link to="/login">
+              <br />
+              Already have an Account? Log in
+            </Link>
           </form>
         </Box>
       </Grid>

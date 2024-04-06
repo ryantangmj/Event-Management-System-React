@@ -58,10 +58,10 @@ export default function Landing() {
               size="large"
               href="/login"
               color="customColor"
+              endIcon={<ArrowForwardIcon />}
               sx={{ borderRadius: 2 }}
             >
               Join Us Today!
-              <ArrowForwardIcon />
             </Button>
           </ThemeProvider>
         </Grid>

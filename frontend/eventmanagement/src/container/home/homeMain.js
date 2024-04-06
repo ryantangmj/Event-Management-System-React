@@ -66,6 +66,7 @@ export default function Home() {
                 fontSize: "16px",
                 borderRadius: "8px",
                 border: "1px solid #ccc",
+                backgroundColor: "transparent",
               }}
             />
           </Box>

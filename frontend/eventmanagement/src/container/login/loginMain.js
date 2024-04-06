@@ -174,6 +174,7 @@ export default function LoginMain() {
               fontSize={24}
               fontWeight={"bold"}
               color={"#181B13"}
+              sx={{ alignSelf: "center" }}
             >
               Login
             </Typography>
@@ -208,22 +209,21 @@ export default function LoginMain() {
                 label="Password"
               />
             </FormControl>
-
-            <Link to="/register">
-              New? Register here
-              <br />
-            </Link>
             <ThemeProvider theme={theme}>
               <Button
                 type="submit"
                 variant="contained"
                 size="large"
                 color="customColor"
-                sx={{ mt: 2, borderRadius: 25 }}
+                sx={{ mt: 2, mb: 2, borderRadius: 25 }}
               >
                 Login
               </Button>
             </ThemeProvider>
+            <Link to="/register">
+              <br />
+              New? Register here
+            </Link>
           </form>
         </Box>
       </Grid>
