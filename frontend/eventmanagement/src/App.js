@@ -1,4 +1,3 @@
-import "./App.css";
 import Home from "./container/Home/HomeMain";
 import Box from "@mui/material/Box";
 import { Routes, Route } from "react-router-dom";
