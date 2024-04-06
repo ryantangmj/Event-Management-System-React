@@ -228,11 +228,18 @@ public class EventResource {
     }
 
     @DELETE
+    @Secured
     @Path("/deleteEvent/{event_id}")
     @Produces(MediaType.APPLICATION_JSON)
-    public Response deleteEvent(@PathParam("event_id") Long eId) {
+    public Response deleteEvent(@Context SecurityContext securityContext, @PathParam("event_id") Long eId) {
         try {
+            Principal principal = securityContext.getUserPrincipal();
+            String userId = principal.getName();
+
+            Account a = accountSessionLocal.getAccount(Long.parseLong(userId));
             Event e = eventSessionLocal.getEvent(eId);
+            
+            accountSessionLocal.removeOrgEvent(a, e);
             eventSessionLocal.removeOrgEvent(e);
             return Response.status(204).build();
         } catch (NoResultException e) {

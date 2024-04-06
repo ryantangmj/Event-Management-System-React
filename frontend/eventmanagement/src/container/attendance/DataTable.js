@@ -10,7 +10,7 @@ export default function DataTable({ id }) {
   const columns = [
     { field: "name", headerName: "Name", width: 130 },
     { field: "contactDetails", headerName: "Phone Number", width: 130 },
-    { field: "email", headerName: "Email", width: 130 },
+    { field: "email", headerName: "Email", width: 200 },
   ];
 
   useEffect(() => {

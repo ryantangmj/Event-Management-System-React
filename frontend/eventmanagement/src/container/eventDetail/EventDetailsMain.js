@@ -8,7 +8,7 @@ import {
   Alert,
   CssBaseline,
   Button,
-  Link,
+  Modal,
 } from "@mui/material";
 import AspectRatio from "@mui/joy/AspectRatio";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
@@ -20,7 +20,8 @@ import LocationOnIcon from "@mui/icons-material/LocationOn";
 import DescriptionIcon from "@mui/icons-material/Description";
 import HowToRegIcon from "@mui/icons-material/HowToReg";
 import PersonRemoveIcon from "@mui/icons-material/PersonRemove";
-import { set } from "date-fns";
+import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
+import DriveFileRenameOutlineIcon from "@mui/icons-material/DriveFileRenameOutline";
 
 function formatDateStringWithRegex(dateString) {
   const regex = /(\d{4})-(\d{2})-(\d{2})T(\d{2}):(\d{2}):(\d{2})Z\[UTC\]/;
@@ -47,6 +48,9 @@ export default function EventDetailsMain({ id, selectedEvent, organiser }) {
   const [openSnackbar, setOpenSnackbar] = React.useState(false);
   const [snackbarMessage, setSnackbarMessage] = useState("");
   const [snackbarSeverity, setSnackbarSeverity] = useState("success");
+
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
 
   const handleOpenSnackbar = (message, severity) => {
     setSnackbarMessage(message);
@@ -76,6 +80,17 @@ export default function EventDetailsMain({ id, selectedEvent, organiser }) {
       .then(() => {
         handleOpenSnackbar("Successfully unregistered for event", "success");
         setRegistered(false);
+      })
+      .catch((error) => {
+        handleOpenSnackbar(error.message, "error");
+      });
+  };
+
+  const handleDeleteClick = () => {
+    const eventId = id;
+    Api.deleteEvent(eventId)
+      .then(() => {
+        navigate("/home");
       })
       .catch((error) => {
         handleOpenSnackbar(error.message, "error");
@@ -265,13 +280,67 @@ export default function EventDetailsMain({ id, selectedEvent, organiser }) {
               >
                 <Button
                   variant="contained"
-                  size="large"
                   color="customColor"
-                  sx={{ mt: 2, borderRadius: 25 }}
+                  sx={{ mt: 2, borderRadius: 25, width: "100%" }}
+                  endIcon={<DriveFileRenameOutlineIcon />}
                 >
                   Attendance
                 </Button>
               </div>
+              <Button
+                variant="contained"
+                color="error"
+                onClick={handleOpen}
+                sx={{ mt: 2, borderRadius: 25 }}
+                endIcon={<DeleteOutlineIcon />}
+              >
+                Delete Event
+              </Button>
+              <Modal
+                open={open}
+                onClose={handleClose}
+                aria-labelledby="modal-modal-title"
+                aria-describedby="modal-modal-description"
+              >
+                <Box
+                  sx={{
+                    position: "absolute",
+                    top: "50%",
+                    left: "50%",
+                    transform: "translate(-50%, -50%)",
+                    width: 400,
+                    bgcolor: "background.paper",
+                    boxShadow: 24,
+                    p: 4,
+                  }}
+                >
+                  <Box
+                    sx={{
+                      display: "flex",
+                      flexDirection: "column",
+                      alignItems: "center",
+                      textAlign: "center",
+                    }}
+                  >
+                    <Typography
+                      id="modal-modal-title"
+                      variant="h6"
+                      component="h2"
+                    >
+                      Are you sure you want to delete this event?
+                    </Typography>
+                    <Button
+                      variant="contained"
+                      color="error"
+                      onClick={handleDeleteClick}
+                      sx={{ mt: 5, borderRadius: 25 }}
+                      endIcon={<DeleteOutlineIcon />}
+                    >
+                      Delete Event
+                    </Button>
+                  </Box>
+                </Box>
+              </Modal>
             </ThemeProvider>
           ) : registered ? (
             <Button
