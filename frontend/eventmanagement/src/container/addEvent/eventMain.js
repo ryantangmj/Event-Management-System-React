@@ -18,7 +18,7 @@ import dayjs from "dayjs";
 import { DateTimePicker } from "@mui/x-date-pickers/DateTimePicker";
 import { useNavigate } from "react-router-dom";
 import Api from "../../helpers/Api";
-import moment from "moment-timezone";
+import PostAddIcon from '@mui/icons-material/PostAdd';
 import swal from "sweetalert";
 import CloudinaryUploadWidget from "../../helpers/CloudinaryUploadWidget";
 
@@ -184,30 +184,30 @@ export default function AddEventDetails() {
             width: "60%",
           }}
         >
-          <form onSubmit={handleSubmit}>
-            <Snackbar
-              open={open}
-              autoHideDuration={6000}
+          <Snackbar
+            open={open}
+            autoHideDuration={6000}
+            onClose={handleClose}
+            anchorOrigin={{ vertical: "top", horizontal: "right" }}
+          >
+            <Alert
               onClose={handleClose}
-              anchorOrigin={{ vertical: "top", horizontal: "right" }}
+              severity="error"
+              variant="filled"
+              sx={{ width: "100%" }}
             >
-              <Alert
-                onClose={handleClose}
-                severity="error"
-                variant="filled"
-                sx={{ width: "100%" }}
-              >
-                {errorMessage}
-              </Alert>
-            </Snackbar>
-            <Typography
-              fontFamily={"open sans, sans-serif"}
-              fontSize={24}
-              fontWeight={"bold"}
-              color={"#181B13"}
-            >
-              Add Event
-            </Typography>
+              {errorMessage}
+            </Alert>
+          </Snackbar>
+          <Typography
+            fontFamily={"open sans, sans-serif"}
+            fontSize={24}
+            fontWeight={"bold"}
+            color={"#181B13"}
+          >
+            Add Event
+          </Typography>
+          <form onSubmit={handleSubmit}>
             <TextField
               sx={{ my: 1, width: "100%" }}
               label="Title"
@@ -283,7 +283,7 @@ export default function AddEventDetails() {
                         sx={{
                           height: "150px",
                           fontFamily: "nunito, sans-serif",
-                          backgroundColor: "#FFFFFF",
+                          backgroundColor: "transparent",
                           color: "#181B13",
                           border: "1px dashed #181B13",
                           borderRadius: "10px",
@@ -313,28 +313,30 @@ export default function AddEventDetails() {
                     border: "1px dashed #181B13",
                     borderRadius: "10px",
                     alignSelf: "flex-start",
+
                     "&:hover": { backgroundColor: "#FFFFFF" },
                     justifyContent: "flex-start",
                     alignItems: "flex-start",
                     objectFit: "contain",
                   }}
                   src={imageURL}
-                  alt="Uploaded Profile Picture"
+                  alt="Uploaded Event Picture"
                 />
               )}
             </div>
-            <ThemeProvider theme={theme}>
-              <Button
-                type="submit"
-                variant="contained"
-                size="large"
-                color="customColor"
-                sx={{ mt: 2, borderRadius: 25 }}
-              >
-                Add Event
-              </Button>
-            </ThemeProvider>
           </form>
+          <ThemeProvider theme={theme}>
+            <Button
+              type="submit"
+              variant="contained"
+              size="large"
+              color="customColor"
+              endIcon={<PostAddIcon />}
+              sx={{ mt: 2, borderRadius: 25 }}
+            >
+              Add Event
+            </Button>
+          </ThemeProvider>
         </Box>
       </Grid>
     </Grid>

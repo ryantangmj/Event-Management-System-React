@@ -14,6 +14,11 @@ import { CssBaseline } from "@mui/material";
 function Navbar() {
   const navigate = useNavigate();
 
+  function logout() {
+    localStorage.removeItem("jwtToken");
+    window.location.href = "/";
+  }
+
   return (
     <>
       <CssBaseline />
@@ -155,7 +160,7 @@ function Navbar() {
                 variant="text"
                 size="small"
                 component="a"
-                href="/"
+                onClick={logout}
                 sx={{
                   display: "flex",
                   width: "18%",

@@ -150,7 +150,7 @@ export default function LoginMain() {
             alignItems: "center",
             justifyContent: { xs: "flex-start", sm: "center" },
             height: "100vh",
-            width: { xs: "100%", md: "30%" },
+            width: { xs: "100%", md: "60%" },
           }}
         >
           <Snackbar
@@ -168,24 +168,23 @@ export default function LoginMain() {
               {errorMessage}
             </Alert>
           </Snackbar>
+          <Typography
+            fontFamily={"open sans, sans-serif"}
+            fontSize={24}
+            fontWeight={"bold"}
+            color={"#181B13"}
+          >
+            Login
+          </Typography>
           <form onSubmit={handleSubmit}>
-            <Typography
-              fontFamily={"open sans, sans-serif"}
-              fontSize={24}
-              fontWeight={"bold"}
-              color={"#181B13"}
-              sx={{ alignSelf: "center" }}
-            >
-              Login
-            </Typography>
             <TextField
-              sx={{ my: 1, width: "140%", mb: 1 }}
+              sx={{ my: 1, width: "100%", mb: 1 }}
               label="Email"
               name="email"
               onChange={handleChange}
               variant="outlined"
             />
-            <FormControl sx={{ width: "140%", mb: 1 }} variant="outlined">
+            <FormControl sx={{ width: "100%", mb: 1 }} variant="outlined">
               <InputLabel htmlFor="outlined-adornment-password">
                 Password
               </InputLabel>

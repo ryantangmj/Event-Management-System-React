@@ -22,10 +22,10 @@ import { useNavigate } from "react-router-dom";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import Api from "../../helpers/Api";
 import cleanup from "../../assets/cleanup.jpeg";
+import FaceRetouchingNaturalIcon from '@mui/icons-material/FaceRetouchingNatural';
 import swal from "sweetalert";
 import EditIcon from "@mui/icons-material/Edit";
 import CloudinaryUploadWidget from "../../helpers/CloudinaryUploadWidget";
-import { set } from "date-fns";
 
 export default function EditProfile() {
   const navigate = useNavigate();
@@ -414,6 +414,7 @@ export default function EditProfile() {
               size="large"
               color="customColor"
               sx={{ mt: 2, borderRadius: 25 }}
+              endIcon={<FaceRetouchingNaturalIcon />}
             >
               Edit Profile
             </Button>
