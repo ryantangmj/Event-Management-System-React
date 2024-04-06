@@ -2,10 +2,10 @@ import React, { useState, useEffect } from "react";
 import Box from "@mui/material/Box";
 import Container from "@mui/material/Container";
 import Grid from "@mui/material/Grid";
-import ItemCard from "./itemCard.js";
+import ItemCard from "./ItemCard.js";
 import Navbar from "../../components/Navbar/navbar.jsx";
 import Footer from "../../components/Footer/foooter.jsx";
-import Api from "../../helpers/Api";
+import Api from "../../helpers/Api.js";
 import { useNavigate } from "react-router-dom";
 
 export default function Home() {

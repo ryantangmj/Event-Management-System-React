@@ -1,17 +1,17 @@
 import "./App.css";
-import Home from "./container/home/homeMain";
+import Home from "./container/Home/HomeMain";
 import Box from "@mui/material/Box";
 import { Routes, Route } from "react-router-dom";
-import HostedEvents from "./container/hostedEvents/hostedEventsMain";
-import RegisteredEvents from "./container/attendedEvents/attendedEventsMain";
-import Profile from "./container/profile/profile";
+import HostedEvents from "./container/HostedEvents/HostedEventsMain";
+import RegisteredEvents from "./container/AttendedEvents/AttendedEventsMain";
+import Profile from "./container/Profile/Profile";
 import { CssBaseline } from "@mui/material";
-import AddEvent from "./container/addEvent/addEvent";
-import Landing from "./container/landing/landing";
-import Login from "./container/login/login";
-import Register from "./container/register/register";
-import EventDetail from "./container/eventDetail/EventDetail";
-import Attendance from "./container/attendance/Attendance";
+import AddEvent from "./container/AddEvent/AddEvent";
+import Landing from "./container/Landing/Landing";
+import Login from "./container/Login/Login";
+import Register from "./container/Register/Register";
+import EventDetail from "./container/EventDetail/EventDetail";
+import Attendance from "./container/Attendance/Attendance";
 import ProtectedRoute from "./helpers/ProtectedRoutes";
 
 function App() {

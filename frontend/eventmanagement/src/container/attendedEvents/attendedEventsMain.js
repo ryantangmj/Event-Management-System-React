@@ -7,10 +7,10 @@ import {
   Container,
   CssBaseline,
 } from "@mui/material";
-import ItemCard from "./itemCard.js";
+import ItemCard from "./ItemCard.js";
 import Footer from "../../components/Footer/foooter.jsx";
 import Navbar from "../../components/Navbar/navbar.jsx";
-import Api from "../../helpers/Api";
+import Api from "../../helpers/Api.js";
 import AspectRatio from "@mui/joy/AspectRatio";
 import image from "../../assets/eventsCollage.jpeg";
 import { createTheme, ThemeProvider } from "@mui/material/styles";

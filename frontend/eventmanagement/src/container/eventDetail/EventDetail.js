@@ -5,7 +5,7 @@ import { useParams } from "react-router-dom";
 import EventDetailsMain from "./EventDetailsMain.js";
 import { CssBaseline } from "@mui/material";
 import Footer from "../../components/Footer/foooter.jsx";
-import Api from "../../helpers/Api";
+import Api from "../../helpers/Api.js";
 import Navbar from "../../components/Navbar/navbar.jsx";
 
 export default function EventDetail() {
