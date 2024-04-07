@@ -10,6 +10,7 @@ import Typography from "@mui/material/Typography";
 import MenuItem from "@mui/material/MenuItem";
 import { useNavigate } from "react-router-dom";
 import { CssBaseline } from "@mui/material";
+import LogoutIcon from '@mui/icons-material/Logout';
 
 function Navbar() {
   const navigate = useNavigate();
@@ -161,6 +162,7 @@ function Navbar() {
                 size="small"
                 component="a"
                 onClick={logout}
+                endIcon={<LogoutIcon />}
                 sx={{
                   display: "flex",
                   width: "18%",
@@ -170,7 +172,7 @@ function Navbar() {
                   fontWeight: "700",
                   fontSize: "1rem",
                   padding: "3px",
-                  borderRadius: "15px",
+                  borderRadius: 25,
                   minWidth: "70px",
                   mr: "-15%",
                   "&:hover": {

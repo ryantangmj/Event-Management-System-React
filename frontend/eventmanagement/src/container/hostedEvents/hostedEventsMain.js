@@ -164,7 +164,7 @@ export default function RegisteredEvents() {
                   href="/addEvent"
                   color="customColor"
                   endIcon={<AddCircleOutlineIcon />}
-                  sx={{ borderRadius: 2, mr: "-12%" }}
+                  sx={{ borderRadius: 25, mr: "-12%" }}
                 >
                   Add Event
                 </Button>
