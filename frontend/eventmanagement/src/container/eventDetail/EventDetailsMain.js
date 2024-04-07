@@ -228,18 +228,6 @@ export default function EventDetailsMain({ id, selectedEvent, organiser }) {
               sx={{ ml: 2, width: 35, height: 35 }}
             />
           </Box>
-
-          <Typography
-            variant="h6"
-            sx={{ mb: 1, fontFamily: "nunito, sans-serif" }}
-          >
-            Date: <br />
-            <div>
-              <CalendarMonthIcon sx={{ mb: -0.5, mr: 1 }} />
-              {formatDateStringWithRegex(selectedEvent.date)}
-            </div>
-          </Typography>
-
           <Typography
             variant="h6"
             sx={{ mb: 1, fontFamily: "nunito, sans-serif" }}
@@ -250,7 +238,16 @@ export default function EventDetailsMain({ id, selectedEvent, organiser }) {
               {formatDateStringWithRegex(selectedEvent.deadline)}
             </div>
           </Typography>
-
+          <Typography
+            variant="h6"
+            sx={{ mb: 1, fontFamily: "nunito, sans-serif" }}
+          >
+            Date: <br />
+            <div>
+              <CalendarMonthIcon sx={{ mb: -0.5, mr: 1 }} />
+              {formatDateStringWithRegex(selectedEvent.date)}
+            </div>
+          </Typography>
           <Typography
             variant="h6"
             sx={{ mb: 1, fontFamily: "nunito, sans-serif" }}
@@ -261,7 +258,6 @@ export default function EventDetailsMain({ id, selectedEvent, organiser }) {
               {selectedEvent.location}
             </div>
           </Typography>
-
           <Typography
             variant="h6"
             sx={{ mb: 1, fontFamily: "nunito, sans-serif" }}
