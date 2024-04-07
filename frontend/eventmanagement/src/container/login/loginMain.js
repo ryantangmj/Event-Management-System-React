@@ -13,10 +13,10 @@ import {
   IconButton,
   Snackbar,
   Alert,
+  Link,
 } from "@mui/material";
 import AspectRatio from "@mui/joy/AspectRatio";
 import singapore from "../../assets/singapore.jpeg";
-import { Link } from "react-router-dom";
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
@@ -223,10 +223,21 @@ export default function LoginMain() {
                 </ThemeProvider>
               </Box>
             </FormControl>
-            <Link to="/register">
-              <br />
-              New? Register here
-            </Link>
+            <Box textAlign="center">
+              <Link
+                sx={{
+                  fontFamily: "nunito, sans-serif",
+                  fontSize: "14px",
+                  "&:hover": {
+                    color: "#9CAFAA",
+                    textDecorationColor: "#9CAFAA",
+                  },
+                }}
+                href="/register"
+              >
+                New to Event Genesis? Register here
+              </Link>
+            </Box>
           </form>
         </Box>
       </Grid>

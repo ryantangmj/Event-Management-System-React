@@ -13,12 +13,12 @@ import {
   IconButton,
   Snackbar,
   Alert,
+  Link,
 } from "@mui/material";
 import AspectRatio from "@mui/joy/AspectRatio";
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import singapore from "../../assets/singapore.jpeg";
-import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import Api from "../../helpers/Api";
@@ -370,15 +370,27 @@ export default function RegisterMain() {
                   size="large"
                   color="customColor"
                   endIcon={<AppRegistrationIcon />}
-                  sx={{ mt: 2, mb: 2, borderRadius: 25, width: "100%"}}
+                  sx={{ mt: 2, mb: 2, borderRadius: 25, width: "100%" }}
                 >
                   Register Now!
                 </Button>
               </ThemeProvider>
             </Box>
-            <Link to="/login">
-              Already have an Account? Log in
-            </Link>
+            <Box textAlign="center">
+              <Link
+                sx={{
+                  fontFamily: "nunito, sans-serif",
+                  fontSize: "14px",
+                  "&:hover": {
+                    color: "#9CAFAA", 
+                    textDecorationColor: "#9CAFAA", 
+                  },
+                }}
+                href="/login"
+              >
+                Already have an Account? Log in
+              </Link>
+            </Box>
           </form>
         </Box>
       </Grid>
