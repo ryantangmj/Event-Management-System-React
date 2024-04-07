@@ -18,7 +18,7 @@ import dayjs from "dayjs";
 import { DateTimePicker } from "@mui/x-date-pickers/DateTimePicker";
 import { useNavigate } from "react-router-dom";
 import Api from "../../helpers/Api";
-import PostAddIcon from '@mui/icons-material/PostAdd';
+import PostAddIcon from "@mui/icons-material/PostAdd";
 import swal from "sweetalert";
 import CloudinaryUploadWidget from "../../helpers/CloudinaryUploadWidget";
 
@@ -324,19 +324,21 @@ export default function AddEventDetails() {
                 />
               )}
             </div>
+            <Box textAlign="center">
+              <ThemeProvider theme={theme}>
+                <Button
+                  type="submit"
+                  variant="contained"
+                  size="large"
+                  color="customColor"
+                  endIcon={<PostAddIcon />}
+                  sx={{ mt: 2, borderRadius: 25, width: "100%"}}
+                >
+                  Add Event
+                </Button>
+              </ThemeProvider>
+            </Box>
           </form>
-          <ThemeProvider theme={theme}>
-            <Button
-              type="submit"
-              variant="contained"
-              size="large"
-              color="customColor"
-              endIcon={<PostAddIcon />}
-              sx={{ mt: 2, borderRadius: 25 }}
-            >
-              Add Event
-            </Button>
-          </ThemeProvider>
         </Box>
       </Grid>
     </Grid>

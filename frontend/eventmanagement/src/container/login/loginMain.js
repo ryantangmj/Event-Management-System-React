@@ -22,6 +22,7 @@ import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { useNavigate } from "react-router-dom";
 import Api from "../../helpers/Api";
+import LockOpenIcon from "@mui/icons-material/LockOpen";
 
 export default function LoginMain() {
   const navigate = useNavigate();
@@ -207,18 +208,21 @@ export default function LoginMain() {
                 }
                 label="Password"
               />
+              <Box textAlign="center">
+                <ThemeProvider theme={theme}>
+                  <Button
+                    type="submit"
+                    variant="contained"
+                    size="large"
+                    color="customColor"
+                    endIcon={<LockOpenIcon />}
+                    sx={{ mt: 2, mb: 2, borderRadius: 25, width: "100%" }}
+                  >
+                    Login
+                  </Button>
+                </ThemeProvider>
+              </Box>
             </FormControl>
-            <ThemeProvider theme={theme}>
-              <Button
-                type="submit"
-                variant="contained"
-                size="large"
-                color="customColor"
-                sx={{ mt: 2, mb: 2, borderRadius: 25 }}
-              >
-                Login
-              </Button>
-            </ThemeProvider>
             <Link to="/register">
               <br />
               New? Register here

@@ -24,6 +24,7 @@ import { createTheme, ThemeProvider } from "@mui/material/styles";
 import Api from "../../helpers/Api";
 import swal from "sweetalert";
 import CloudinaryUploadWidget from "../../helpers/CloudinaryUploadWidget";
+import AppRegistrationIcon from "@mui/icons-material/AppRegistration";
 
 export default function RegisterMain() {
   const navigate = useNavigate();
@@ -361,20 +362,21 @@ export default function RegisterMain() {
                 />
               )}
             </div>
-
-            <ThemeProvider theme={theme}>
-              <Button
-                type="submit"
-                variant="contained"
-                size="large"
-                color="customColor"
-                sx={{ mt: 2, mb: 2, borderRadius: 25 }}
-              >
-                Register Now!
-              </Button>
-            </ThemeProvider>
+            <Box textAlign="center">
+              <ThemeProvider theme={theme}>
+                <Button
+                  type="submit"
+                  variant="contained"
+                  size="large"
+                  color="customColor"
+                  endIcon={<AppRegistrationIcon />}
+                  sx={{ mt: 2, mb: 2, borderRadius: 25, width: "100%"}}
+                >
+                  Register Now!
+                </Button>
+              </ThemeProvider>
+            </Box>
             <Link to="/login">
-              <br />
               Already have an Account? Log in
             </Link>
           </form>
