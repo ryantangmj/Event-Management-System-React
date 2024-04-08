@@ -45,7 +45,5 @@ public interface AccountSessionLocal {
     
     public boolean sameEmail(String email);
     
-    public void addToken(String email, String token);
-    
     public Account retrieveUserWithEmail(String token);
 }

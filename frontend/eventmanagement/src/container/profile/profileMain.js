@@ -22,7 +22,7 @@ import { useNavigate } from "react-router-dom";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import Api from "../../helpers/Api";
 import cleanup from "../../assets/cleanup.jpeg";
-import FaceRetouchingNaturalIcon from '@mui/icons-material/FaceRetouchingNatural';
+import FaceRetouchingNaturalIcon from "@mui/icons-material/FaceRetouchingNatural";
 import swal from "sweetalert";
 import EditIcon from "@mui/icons-material/Edit";
 import CloudinaryUploadWidget from "../../helpers/CloudinaryUploadWidget";
@@ -80,9 +80,6 @@ export default function EditProfile() {
   function handleOnUpload(error, result, widget) {
     if (error) {
       console.log(error);
-      // widget.close({
-      //   quiet: true,
-      // });
       return;
     }
     swal("Success", "Media uploaded", "success");
@@ -111,9 +108,8 @@ export default function EditProfile() {
         });
         setImageURL(fetchedUser.imageURL || "empty");
         setConfirmPassword(fetchedUser.password || "");
-        console.log(formData);
       } catch (error) {
-        console.log("Failed to fetch registered events:", error);
+        console.log("Failed to fetch user:", error);
       }
     };
 

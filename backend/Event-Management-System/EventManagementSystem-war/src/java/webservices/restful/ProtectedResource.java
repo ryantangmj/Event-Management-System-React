@@ -47,8 +47,8 @@ public class ProtectedResource {
             String userId = principal.getName();
 
             List<Event> orgEvents = accountSessionLocal.getOrganisedEvents(Long.parseLong(userId));
-            
-             for (Event e : orgEvents) {
+
+            for (Event e : orgEvents) {
                 Account org = e.getOrganiser();
                 org.setAttendedEvents(null);
                 org.setJoinedEvents(null);
@@ -141,18 +141,23 @@ public class ProtectedResource {
     @Path("/updateAccount")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public Account updateAccount(@Context SecurityContext securityContext, Account a) {
+    public Response updateAccount(@Context SecurityContext securityContext, Account a) {
         Principal principal = securityContext.getUserPrincipal();
         String userId = principal.getName();
         Account currentAccount = accountSessionLocal.getAccount(Long.parseLong(userId));
+        
+        if (!currentAccount.getEmail().equals(a.getEmail()) && accountSessionLocal.sameEmail(a.getEmail())) {
+            return Response.status(Response.Status.UNAUTHORIZED)
+                    .entity("This email already has an account!")
+                    .build();
+        }
 
-        currentAccount.setName(a.getName());
         currentAccount.setContactDetails(a.getContactDetails());
         currentAccount.setEmail(a.getEmail());
         currentAccount.setPassword(a.getPassword());
         currentAccount.setImageURL(a.getImageURL());
         accountSessionLocal.updateAccount(currentAccount);
-        return a;
+        return Response.ok(a).build();
     }
 
     @GET

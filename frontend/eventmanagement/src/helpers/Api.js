@@ -170,7 +170,7 @@ const Api = {
     })
       .then((response) => {
         if (!response.ok) {
-          throw new Error("Failed to update account");
+          throw new Error("This email already has an account!");
         }
         return response.json();
       })

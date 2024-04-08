@@ -30,7 +30,6 @@ public class Account implements Serializable {
     private String contactDetails;
     private String email;
     private String password;
-    private String token;
     private String imageURL;
     @OneToMany (mappedBy="organiser")
     private List<Event> organisedEvents = new ArrayList<Event>();
@@ -45,14 +44,6 @@ public class Account implements Serializable {
 
     public void setImageURL(String imageURL) {
         this.imageURL = imageURL;
-    }
-
-    public String getToken() {
-        return token;
-    }
-
-    public void setToken(String token) {
-        this.token = token;
     }
 
     public String getPassword() {

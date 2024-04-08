@@ -168,14 +168,4 @@ public class AccountSession implements AccountSessionLocal {
             return false;
         }
     }
-
-    @Override
-    public void addToken(String email, String token) {
-        Query q;
-        q = em.createQuery("SELECT a FROM Account a WHERE LOWER(a.email) LIKE :email");
-        q.setParameter("email", email.toLowerCase());
-        Account user = (Account) q.getSingleResult();
-
-        user.setToken(token);
-    }
 }
