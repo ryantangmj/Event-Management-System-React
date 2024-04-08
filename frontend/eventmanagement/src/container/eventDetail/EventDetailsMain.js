@@ -23,27 +23,12 @@ import PersonRemoveIcon from "@mui/icons-material/PersonRemove";
 import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
 import DriveFileRenameOutlineIcon from "@mui/icons-material/DriveFileRenameOutline";
 
-function formatDateStringWithRegex(dateString) {
-  const regex = /(\d{4})-(\d{2})-(\d{2})T(\d{2}):(\d{2}):(\d{2})Z\[UTC\]/;
-  const match = dateString?.match(regex);
-
-  if (match) {
-    const year = match[1];
-    const month = match[2];
-    const day = match[3];
-    const hour = match[4];
-    const minute = match[5];
-    return `${day}-${month}-${year} ${hour}:${minute}`;
-  }
-
-  return "";
-}
-
-export default function EventDetailsMain({ id, selectedEvent, organiser }) {
+export default function EventDetailsMain({ id }) {
   const navigate = useNavigate();
   const [userId, setUserId] = useState("");
+  const [event, setEvent] = useState({});
+  const [organiser, setOrganiser] = useState([]);
   const [registered, setRegistered] = useState(false);
-  const [errorMessage, setErrorMessage] = useState("");
   const [open, setOpen] = React.useState();
   const [openSnackbar, setOpenSnackbar] = React.useState(false);
   const [snackbarMessage, setSnackbarMessage] = useState("");
@@ -51,6 +36,56 @@ export default function EventDetailsMain({ id, selectedEvent, organiser }) {
 
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
+
+  useEffect(() => {
+    const fetchEvent = async () => {
+      try {
+        const fetchedEvent = await Api.fetchEventById(id);
+        setEvent(fetchedEvent);
+        setOrganiser(fetchedEvent.organiser);
+      } catch (error) {
+        console.error("Failed to fetch event:", error);
+      }
+    };
+
+    fetchEvent();
+  }, [id]);
+
+  useEffect(() => {
+    const fetchUser = async () => {
+      const fetchedUser = await Api.getAccount();
+      setUserId(fetchedUser.id);
+    };
+
+    fetchUser();
+  }, []);
+
+  useEffect(() => {
+    const isRegistered = async () => {
+      console.log("id", id);
+      const registered = await Api.isRegistered(id);
+      setRegistered(registered);
+    };
+
+    isRegistered();
+  }, []);
+
+  function formatDate(dateString) {
+    const date = new Date(dateString.replace("[UTC]", ""));
+
+    const options = {
+      year: "numeric",
+      month: "2-digit",
+      day: "2-digit",
+      hour: "2-digit",
+      minute: "2-digit",
+      hour12: false,
+      timeZone: "Asia/Singapore",
+    };
+    return new Intl.DateTimeFormat("en-GB", options)
+      .format(date)
+      .replace(",", "");
+  }
 
   const handleOpenSnackbar = (message, severity) => {
     setSnackbarMessage(message);
@@ -96,25 +131,6 @@ export default function EventDetailsMain({ id, selectedEvent, organiser }) {
         handleOpenSnackbar(error.message, "error");
       });
   };
-
-  useEffect(() => {
-    const fetchUser = async () => {
-      const fetchedUser = await Api.getAccount();
-      setUserId(fetchedUser.id);
-    };
-
-    fetchUser();
-  }, []);
-
-  useEffect(() => {
-    const isRegistered = async () => {
-      console.log("id", id);
-      const registered = await Api.isRegistered(id);
-      setRegistered(registered);
-    };
-
-    isRegistered();
-  }, []);
 
   const theme = createTheme({
     palette: {
@@ -166,7 +182,7 @@ export default function EventDetailsMain({ id, selectedEvent, organiser }) {
               height: "100%",
               width: "100%",
             }}
-            src={selectedEvent.imageURL}
+            src={event.imageURL}
             alt="Event image"
           />
         </AspectRatio>
@@ -212,7 +228,7 @@ export default function EventDetailsMain({ id, selectedEvent, organiser }) {
             component="div"
             sx={{ fontWeight: "bold", mb: 2, fontFamily: "nunito, sans-serif" }}
           >
-            {selectedEvent.title}
+            {event.title}
           </Typography>
 
           <Box sx={{ display: "flex", alignItems: "center", mb: 2 }}>
@@ -235,7 +251,7 @@ export default function EventDetailsMain({ id, selectedEvent, organiser }) {
             Deadline: <br />
             <div>
               <EventBusyIcon sx={{ mb: -0.5, mr: 1 }} />
-              {formatDateStringWithRegex(selectedEvent.deadline)}
+              {event.deadline && formatDate(event.deadline)}
             </div>
           </Typography>
           <Typography
@@ -245,7 +261,7 @@ export default function EventDetailsMain({ id, selectedEvent, organiser }) {
             Date: <br />
             <div>
               <CalendarMonthIcon sx={{ mb: -0.5, mr: 1 }} />
-              {formatDateStringWithRegex(selectedEvent.date)}
+              {event.date && formatDate(event.date)}
             </div>
           </Typography>
           <Typography
@@ -255,7 +271,7 @@ export default function EventDetailsMain({ id, selectedEvent, organiser }) {
             Location: <br />
             <div>
               <LocationOnIcon sx={{ mb: -0.5, mr: 1 }} />
-              {selectedEvent.location}
+              {event.location}
             </div>
           </Typography>
           <Typography
@@ -265,13 +281,13 @@ export default function EventDetailsMain({ id, selectedEvent, organiser }) {
             Description: <br />
             <div>
               <DescriptionIcon sx={{ mb: -0.5, mr: 1 }} />
-              {selectedEvent.description}
+              {event.description}
             </div>
           </Typography>
           {userId === organiser.id ? (
             <ThemeProvider theme={theme}>
               <div
-                onClick={() => navigate(`/attendance/${selectedEvent.id}/`)}
+                onClick={() => navigate(`/attendance/${event.id}/`)}
                 style={{ textDecoration: "none", cursor: "pointer" }}
               >
                 <Button

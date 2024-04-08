@@ -9,23 +9,7 @@ import Api from "../../helpers/Api.js";
 import Navbar from "../../components/Navbar/navbar.jsx";
 
 export default function EventDetail() {
-  const [event, setEvent] = useState([]);
-  const [organiser, setOrganiser] = useState([]);
   const { id } = useParams();
-
-  useEffect(() => {
-    const fetchEvent = async () => {
-      try {
-        const fetchedEvent = await Api.fetchEventById(id);
-        setEvent(fetchedEvent);
-        setOrganiser(fetchedEvent.organiser);
-      } catch (error) {
-        console.error("Failed to fetch event:", error);
-      }
-    };
-
-    fetchEvent();
-  }, []);
 
   return (
     <Box>
@@ -58,8 +42,6 @@ export default function EventDetail() {
           >
             <EventDetailsMain
               id={id}
-              selectedEvent={event}
-              organiser={organiser}
             />
           </Container>
         </Container>

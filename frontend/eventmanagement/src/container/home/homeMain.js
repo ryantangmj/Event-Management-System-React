@@ -18,6 +18,7 @@ export default function Home() {
       try {
         const fetchedEvents = await Api.getAllEvents();
         setEvents(fetchedEvents);
+        console.log("Fetched organized events:", fetchedEvents)
       } catch (error) {
         console.error("Failed to fetch organized events:", error);
       }

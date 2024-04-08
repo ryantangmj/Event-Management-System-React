@@ -43,8 +43,6 @@ import session.EventSessionLocal;
  */
 @Path("event")
 public class EventResource {
-
-    SimpleDateFormat inputFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.ENGLISH);
     @EJB
     private EventSessionLocal eventSessionLocal;
     @EJB
@@ -87,6 +85,7 @@ public class EventResource {
     @GET
     @Secured
     @Path("/{id}")
+    @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     public Response getEvent(@Context SecurityContext securityContext, @PathParam("id") Long eId) {
         Event e = eventSessionLocal.getEvent(eId);
