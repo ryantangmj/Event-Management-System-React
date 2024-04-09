@@ -12,6 +12,7 @@ import Register from "./container/Register/Register";
 import EventDetail from "./container/EventDetail/EventDetail";
 import Attendance from "./container/Attendance/Attendance";
 import ProtectedRoute from "./helpers/ProtectedRoutes";
+import UserDetail from "./container/UserDetail/UserDetailMain";
 
 function App() {
   return (
@@ -76,6 +77,14 @@ function App() {
             element={
               <ProtectedRoute>
                 <AddEvent />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/userDetail/:id"
+            element={
+              <ProtectedRoute>
+                <UserDetail />
               </ProtectedRoute>
             }
           />

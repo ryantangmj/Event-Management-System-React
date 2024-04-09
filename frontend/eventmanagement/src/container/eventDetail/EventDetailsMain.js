@@ -22,6 +22,7 @@ import HowToRegIcon from "@mui/icons-material/HowToReg";
 import PersonRemoveIcon from "@mui/icons-material/PersonRemove";
 import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
 import DriveFileRenameOutlineIcon from "@mui/icons-material/DriveFileRenameOutline";
+import { Link } from "react-router-dom";
 
 export default function EventDetailsMain({ id }) {
   const navigate = useNavigate();
@@ -234,9 +235,23 @@ export default function EventDetailsMain({ id }) {
           <Box sx={{ display: "flex", alignItems: "center", mb: 2 }}>
             <Typography
               variant="subtitle1"
-              sx={{ color: "#666", fontFamily: "nunito, sans-serif" }}
+              sx={{ fontFamily: "nunito, sans-serif", color: "666" }}
             >
-              By {organiser.name}
+              By{" "}
+              <Link
+                to={`/userDetail/${organiser.id}`}
+                sx={{
+                  marginLeft: "4px",
+                  fontFamily: "nunito, sans-serif",
+                  textDecoration: "none",
+                  "&:hover": {
+                    textDecoration: "underline",
+                    color: "#9CAFAA",
+                  },
+                }}
+              >
+                {organiser.name}
+              </Link>
             </Typography>
             <Avatar
               alt="Organiser profile picture"

@@ -90,6 +90,28 @@ const Api = {
         throw error;
       });
   },
+  getOrgEventsByUserId(id) {
+    const token = localStorage.getItem("jwtToken");
+
+    return fetch(`${SERVER_PREFIX}/protected/getOrgEventsbyUserId/${id}`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+      method: "GET",
+    })
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("Failed to fetch organized events");
+        }
+        return response.json();
+      })
+      .catch((error) => {
+        console.error("Request error:", error);
+        throw error;
+      });
+  },
   getRegEvents() {
     const token = localStorage.getItem("jwtToken");
 
@@ -138,6 +160,28 @@ const Api = {
     const token = localStorage.getItem("jwtToken");
 
     return fetch(`${SERVER_PREFIX}/protected/getAccount`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+      method: "GET",
+    })
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("Failed to fetch account");
+        }
+        return response.json();
+      })
+      .catch((error) => {
+        console.error("Request error:", error);
+        throw error;
+      });
+  },
+  getAccountByUserId(id) {
+    const token = localStorage.getItem("jwtToken");
+
+    return fetch(`${SERVER_PREFIX}/protected/getAccountByUserId/${id}`, {
       headers: {
         Authorization: `Bearer ${token}`,
         Accept: "application/json",

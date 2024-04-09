@@ -74,6 +74,41 @@ public class ProtectedResource {
                     .build();
         }
     }
+    
+    @GET
+    @Secured
+    @Path("/getOrgEventsbyUserId/{id}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response getOrgEventsByUserId(@Context SecurityContext securityContext, @PathParam("id") Long aId) {
+        try {
+            List<Event> orgEvents = accountSessionLocal.getOrganisedEvents(aId);
+
+            for (Event e : orgEvents) {
+                Account org = e.getOrganiser();
+                org.setAttendedEvents(null);
+                org.setJoinedEvents(null);
+                org.setOrganisedEvents(null);
+
+                for (Account a : e.getAttendees()) {
+                    a.setAttendedEvents(null);
+                    a.setJoinedEvents(null);
+                    a.setOrganisedEvents(null);
+                }
+
+                for (Account a : e.getParticipants()) {
+                    a.setAttendedEvents(null);
+                    a.setJoinedEvents(null);
+                    a.setOrganisedEvents(null);
+                }
+            }
+
+            return Response.ok(orgEvents).build();
+        } catch (Exception e) {
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
+                    .entity("Error fetching organized events")
+                    .build();
+        }
+    }
 
     @GET
     @Secured
@@ -135,6 +170,26 @@ public class ProtectedResource {
                     .build();
         }
     }
+    
+    @GET
+    @Secured
+    @Path("/getAccountByUserId/{id}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response getAccountByUserId(@Context SecurityContext securityContext, @PathParam("id") Long aId) {
+
+        try {
+            Account account = accountSessionLocal.getAccount(aId);
+            account.setAttendedEvents(null);
+            account.setJoinedEvents(null);
+            account.setOrganisedEvents(null);
+
+            return Response.ok(account).build();
+        } catch (Exception e) {
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
+                    .entity("Error fetching account")
+                    .build();
+        }
+    }
 
     @PUT
     @Secured
@@ -158,61 +213,5 @@ public class ProtectedResource {
         currentAccount.setImageURL(a.getImageURL());
         accountSessionLocal.updateAccount(currentAccount);
         return Response.ok(a).build();
-    }
-
-    @GET
-    @Path("/getName/{account_id}")
-    @Produces(MediaType.APPLICATION_JSON)
-    public String getName(@PathParam("account_id") Long aId) {
-        return accountSessionLocal.getName(aId);
-    }
-
-    @GET
-    @Path("/getContact/{account_id}")
-    @Produces(MediaType.APPLICATION_JSON)
-    public String getContact(@PathParam("account_id") Long aId) {
-        return accountSessionLocal.getContactDetails(aId);
-    }
-
-    @PUT
-    @Path("/joinEvent/")
-    @Produces(MediaType.APPLICATION_JSON)
-    public Response joinEvent(@QueryParam("aId") Long aId, @QueryParam("eId") Long eId) {
-        Event e = eventSessionLocal.getEvent(eId);
-        Account a = accountSessionLocal.getAccount(aId);
-        accountSessionLocal.joinNewEvent(a, e);
-        return Response.status(204).build();
-    }
-
-    @DELETE
-    @Path("/removeEvent/{event_id}")
-    @Consumes(MediaType.APPLICATION_JSON)
-    @Produces(MediaType.APPLICATION_JSON)
-    public Response removeEvent(@PathParam("event_id") Long eId, Long aId) {
-        Event e = eventSessionLocal.getEvent(eId);
-        Account a = accountSessionLocal.getAccount(aId);
-        accountSessionLocal.removeEvent(a, e);
-        return Response.status(204).build();
-    }
-
-    @DELETE
-    @Path("/removeOrgEvent/{event_id}")
-    @Consumes(MediaType.APPLICATION_JSON)
-    @Produces(MediaType.APPLICATION_JSON)
-    public Response removeOrgEvent(@PathParam("event_id") Long eId, Long aId) {
-        Event e = eventSessionLocal.getEvent(eId);
-        Account a = accountSessionLocal.getAccount(aId);
-        accountSessionLocal.removeOrgEvent(a, e);
-        return Response.status(204).build();
-    }
-
-    @PUT
-    @Path("/joinEvent/{event_id}")
-    @Consumes(MediaType.APPLICATION_JSON)
-    @Produces(MediaType.APPLICATION_JSON)
-    public Response updateAttendees(@PathParam("event_id") Long eId, List<Account> accounts) {
-        Event e = eventSessionLocal.getEvent(eId);
-        accountSessionLocal.updateAttendees(accounts, e);
-        return Response.status(204).build();
     }
 }
