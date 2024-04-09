@@ -14,17 +14,43 @@ export default function Home() {
   const [searchQuery, setSearchQuery] = useState("");
 
   useEffect(() => {
+    let isMounted = true;
+
     const fetchEvents = async () => {
       try {
-        const fetchedEvents = await Api.getAllEvents();
-        setEvents(fetchedEvents);
-        console.log("Fetched organized events:", fetchedEvents)
+        const [allEvents, orgEvents] = await Promise.all([
+          Api.getAllEvents(),
+          Api.getOrgEvents(),
+        ]);
+
+        if (isMounted) {
+          const now = new Date(); // Current date and time
+
+          // Filter to get non-organized and future events
+          const relevantEvents = allEvents.filter((event) => {
+            const cleanedDateString = event.date.replace("[UTC]", "");
+            const eventDate = new Date(cleanedDateString);
+
+            // Check if the event is not an orgEvent and is in the future
+            return (
+              !orgEvents.some((orgEvent) => orgEvent.id === event.id) &&
+              eventDate > now
+            );
+          });
+
+          // Update state with the filtered events
+          setEvents(relevantEvents);
+        }
       } catch (error) {
-        console.error("Failed to fetch organized events:", error);
+        console.error("Failed to fetch events:", error);
       }
     };
 
     fetchEvents();
+
+    return () => {
+      isMounted = false;
+    };
   }, []);
 
   return (
