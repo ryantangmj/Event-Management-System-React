@@ -22,7 +22,7 @@ import HowToRegIcon from "@mui/icons-material/HowToReg";
 import PersonRemoveIcon from "@mui/icons-material/PersonRemove";
 import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
 import DriveFileRenameOutlineIcon from "@mui/icons-material/DriveFileRenameOutline";
-import { Link } from "react-router-dom";
+import Link from "@mui/material/Link";
 
 export default function EventDetailsMain({ id }) {
   const navigate = useNavigate();
@@ -235,18 +235,22 @@ export default function EventDetailsMain({ id }) {
           <Box sx={{ display: "flex", alignItems: "center", mb: 2 }}>
             <Typography
               variant="subtitle1"
-              sx={{ fontFamily: "nunito, sans-serif", color: "666" }}
+              sx={{ fontFamily: "nunito, sans-serif", color: "#666666" }}
             >
-              By{" "}
+              By
               <Link
-                to={`/userDetail/${organiser.id}`}
+                onClick={() => {
+                  navigate(`/userDetail/${organiser.id}`);
+                }}
                 sx={{
+                  color: "#666666",
                   marginLeft: "4px",
                   fontFamily: "nunito, sans-serif",
                   textDecoration: "none",
                   "&:hover": {
                     textDecoration: "underline",
                     color: "#9CAFAA",
+                    cursor: "pointer",
                   },
                 }}
               >
