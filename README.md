@@ -52,11 +52,11 @@ Home Page
 My Events Page
 ![My Events Page](https://github.com/ryantangmj/Event-Management-System-React/assets/110431837/9ffc56cb-ec7e-40e7-a162-e26a08eae676)
 Event Detail Page
-![Details Dialog](https://github.com/ryantangmj/Event-Management-System/assets/110431837/0a3c5802-2738-4efd-bdc7-bdac9ec9b105)
+![Details Dialog](https://github.com/ryantangmj/Event-Management-System-React/assets/110431837/8f80c186-0ef8-47d3-a796-2cf0208aa653)
 Attendance Page
-![Attendance Page](https://github.com/ryantangmj/Event-Management-System/assets/110431837/7e6ed696-603a-40a8-94d5-40be24b6901b)
+![Attendance Page](https://github.com/ryantangmj/Event-Management-System-React/assets/110431837/3b298a39-209a-4ee2-94c0-1293a59e6541)
 Edit Profile Page
-![Edit Profile Page](https://github.com/ryantangmj/Event-Management-System/assets/110431837/8bb5777b-8b66-4235-9a54-6344a97be543)
+![Edit Profile Page](https://github.com/ryantangmj/Event-Management-System-React/assets/110431837/b1cae731-d56f-481f-9314-70038f4e8a43)
 ### Features
 
 Event Genesis is designed with an array of features to enhance user engagement and streamline event management:
