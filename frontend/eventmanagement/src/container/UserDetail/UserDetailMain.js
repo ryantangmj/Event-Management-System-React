@@ -68,7 +68,7 @@ export default function UserDetail() {
             spacing={2}
             sx={{ justifyContent: "center", alignItems: "center" }}
           >
-            <Grid container sx={{ ml: 3 }} spacing={1}>
+            <Grid container sx={{ ml: 3, mt: 3 }} spacing={1}>
               <div
                 style={{
                   marginRight: "auto",
@@ -114,7 +114,7 @@ export default function UserDetail() {
             spacing={2}
             sx={{ justifyContent: "center", alignItems: "center" }}
           >
-            <Grid container sx={{ ml: 3 }} spacing={1}>
+            <Grid container sx={{ ml: 3, mt: 3 }} spacing={1}>
               <div
                 style={{
                   marginRight: "auto",

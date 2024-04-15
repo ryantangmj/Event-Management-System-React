@@ -45,6 +45,7 @@ export default function ItemCard({ event, index }) {
       sx={{
         position: "relative",
         maxWidth: isMobile ? 150 : 300,
+        minHeight: 500,
         borderRadius: "8px",
         m: 2,
         ":hover": {
