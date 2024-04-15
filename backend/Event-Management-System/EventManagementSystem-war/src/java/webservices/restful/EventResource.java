@@ -252,6 +252,13 @@ public class EventResource {
             Event e = eventSessionLocal.getEvent(eId);
 
             accountSessionLocal.removeOrgEvent(a, e);
+
+            List<Account> registeredUsers = e.getParticipants();
+            for (Account account: registeredUsers) {
+                eventSessionLocal.removeParticipant(account, e);
+                accountSessionLocal.removeEvent(account, e);
+            }
+            
             eventSessionLocal.removeOrgEvent(e);
             return Response.status(204).build();
         } catch (NoResultException e) {
