@@ -27,7 +27,7 @@ export default function Home() {
           const now = new Date();
 
           const relevantEvents = allEvents.filter((event) => {
-            const cleanedDateString = event.date.replace("[UTC]", "");
+            const cleanedDateString = event.deadline.replace("[UTC]", "");
             const eventDate = new Date(cleanedDateString);
 
             return (
