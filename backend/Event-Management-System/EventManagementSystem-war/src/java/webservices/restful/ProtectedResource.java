@@ -207,6 +207,7 @@ public class ProtectedResource {
                     .build();
         }
 
+        currentAccount.setName(a.getName());
         currentAccount.setContactDetails(a.getContactDetails());
         currentAccount.setEmail(a.getEmail());
         currentAccount.setPassword(a.getPassword());
