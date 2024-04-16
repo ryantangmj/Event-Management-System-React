@@ -10,13 +10,11 @@ import java.security.Principal;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.ws.rs.Consumes;
-import javax.ws.rs.DELETE;
 import javax.ws.rs.Produces;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.PUT;
 import javax.ws.rs.PathParam;
-import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
@@ -47,6 +45,8 @@ public class ProtectedResource {
             String userId = principal.getName();
 
             List<Event> orgEvents = accountSessionLocal.getOrganisedEvents(Long.parseLong(userId));
+            
+            System.out.println(orgEvents.size());
 
             for (Event e : orgEvents) {
                 Account org = e.getOrganiser();
@@ -82,7 +82,8 @@ public class ProtectedResource {
     public Response getOrgEventsByUserId(@Context SecurityContext securityContext, @PathParam("id") Long aId) {
         try {
             List<Event> orgEvents = accountSessionLocal.getOrganisedEvents(aId);
-
+            orgEvents.size();
+            
             for (Event e : orgEvents) {
                 Account org = e.getOrganiser();
                 org.setAttendedEvents(null);
@@ -120,7 +121,8 @@ public class ProtectedResource {
             String userId = principal.getName();
 
             List<Event> regEvents = accountSessionLocal.getRegisteredEvents(Long.parseLong(userId));
-
+            System.out.println(regEvents.size());
+            
             for (Event e : regEvents) {
                 Account org = e.getOrganiser();
                 org.setAttendedEvents(null);

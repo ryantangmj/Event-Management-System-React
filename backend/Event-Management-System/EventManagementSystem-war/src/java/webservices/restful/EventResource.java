@@ -11,11 +11,8 @@ package webservices.restful;
 import entity.Account;
 import entity.Event;
 import java.security.Principal;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.Locale;
 import javax.ejb.EJB;
 import javax.json.Json;
 import javax.json.JsonObject;
@@ -25,11 +22,11 @@ import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
-import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Context;
+import javax.ws.rs.core.GenericEntity;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.SecurityContext;
@@ -116,13 +113,15 @@ public class EventResource {
     public Response getParticipants(@PathParam("event_id") Long eId) {
         Event e = eventSessionLocal.getEvent(eId);
 
-        for (Account a : e.getParticipants()) {
+        List<Account> participants = e.getParticipants();
+
+        for (Account a : participants) {
             a.setAttendedEvents(null);
             a.setJoinedEvents(null);
             a.setOrganisedEvents(null);
         }
 
-        return Response.ok(e.getParticipants()).build();
+        return Response.ok(participants).build();
     }
 
     @GET
@@ -147,14 +146,18 @@ public class EventResource {
     @Produces(MediaType.APPLICATION_JSON)
     public Response getAttendees(@PathParam("event_id") Long eId) {
         Event e = eventSessionLocal.getEvent(eId);
-
-        for (Account a : e.getAttendees()) {
+        
+        List<Account> attendees = e.getAttendees();
+        for (Account a : attendees) {
             a.setAttendedEvents(null);
             a.setJoinedEvents(null);
             a.setOrganisedEvents(null);
         }
 
-        return Response.ok(e.getAttendees()).build();
+        GenericEntity<List<Account>> entity = new GenericEntity<List<Account>>(attendees){};
+        return Response.status(200).entity(
+                    entity
+            ).build(); 
     }
 
     @POST
@@ -216,20 +219,25 @@ public class EventResource {
                 .type(MediaType.APPLICATION_JSON).build();
     }
 
-    @PUT
+    @POST
     @Path("/updateAttendees/{event_id}")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     public Response updateAttendees(@PathParam("event_id") Long eId, List<Account> attendees) {
         Event e = eventSessionLocal.getEvent(eId);
-//        List<Account> attendees = new ArrayList<Account>();
-        
-//        for (Long id: attendeesId) {
-//            attendees.add(accountSessionLocal.getAccount(id));
-//        }
 
+        for (Account a: attendees) {
+            System.out.println(a.getAttendedEvents());
+            System.out.println(a.getJoinedEvents());
+        }
+        
         accountSessionLocal.updateAttendees(attendees, e);
         eventSessionLocal.updateAttendees(attendees, e);
+        
+        for (Account a: attendees) {
+            System.out.println(a.getAttendedEvents());
+            System.out.println(a.getJoinedEvents());
+        }
         
         JsonObject successMessage = Json.createObjectBuilder()
                 .add("message", "Event's attendance succesfully marked")

@@ -404,7 +404,7 @@ const Api = {
         Accept: "application/json",
         "Content-Type": "application/json",
       },
-      method: "PUT",
+      method: "POST",
       body: JSON.stringify(attendeesData),
     })
       .then((response) => {

@@ -50,15 +50,12 @@ export default function AttendanceList({ id }) {
       setAttendees(fetchedAttendees);
     };
     fetchAttendees();
-
-    console.log(attendees);
   }, [id]);
 
   useEffect(() => {
     const fetchParticipants = async () => {
       const fetchedParticipants = await Api.fetchParticipants(id);
       setParticipants(fetchedParticipants);
-      console.log(participants);
     };
     fetchParticipants();
   }, [id]);

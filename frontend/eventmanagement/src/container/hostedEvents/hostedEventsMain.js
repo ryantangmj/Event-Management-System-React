@@ -34,6 +34,7 @@ export default function RegisteredEvents() {
       try {
         const fetchedEvents = await Api.getOrgEvents();
         setEvents(fetchedEvents);
+        console.log(fetchedEvents);
       } catch (error) {
         console.error("Failed to fetch organized events:", error);
       }

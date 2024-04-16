@@ -41,6 +41,10 @@ export default function Home() {
       } catch (error) {
         console.error("Failed to fetch events:", error);
       }
+      // const fetchEvents = async () => {
+      //   Api.getAllEvents().then((response) => {
+      //     setEvents(response);
+      //   });
     };
 
     fetchEvents();
